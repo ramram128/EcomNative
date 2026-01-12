@@ -8,7 +8,9 @@ android/.gradle/
 android/local.properties
 android/generated/
 *.keystore
+android/app/.cxx/
 !android/app/debug.keystore
+android/build/
 
 # iOS specifics
 ios/build/

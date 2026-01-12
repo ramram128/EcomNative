@@ -21,7 +21,7 @@ export interface Product {
   price: string;
   regular_price: string;
   sale_price?: string;
-
+  categories?: { name: string }[]; // Fixes the first red line
   images: WooImage[];
   description: string;
   short_description: string;
