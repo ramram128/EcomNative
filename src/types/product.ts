@@ -34,6 +34,7 @@ export interface Product {
 export interface Variation {
   id: number;
   variation_id:number;
+  image: WooImage;
   price: string;
   regular_price: string;
   sale_price: string;

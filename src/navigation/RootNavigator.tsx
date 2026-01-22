@@ -1,47 +1,25 @@
 import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { RootStackParamList } from '../types/navigation'; 
-import HomeScreen2 from '../screens/Home/HomeScreen2';
+import HomeScreen from '../screens/Home/HomeScreen';
 import ProductDetailsScreen from '../screens/ProductDetailsScreen/ProductDetailsScreen';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { COLORS } from '../../constants/color';
+import { COLORS } from '../constants/theme';
 
-// Change "Stack" to "Tab"
-const Tab = createBottomTabNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-export const RootNavigator = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName = 'home';
+const HomeStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+  </Stack.Navigator>
+);
 
-          if (route.name === 'Home') {
-            iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'ProductDetails') {
-            iconName = focused ? 'information-circle' : 'information-circle-outline';
-          }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: COLORS.primary,
-        tabBarInactiveTintColor: 'gray',
-      })}
-    >
-      <Tab.Screen 
-        name="Home" 
-        component={HomeScreen2} 
-        options={{ title: 'Shop' }}
-      />
-      <Tab.Screen 
-        name="ProductDetails" 
-        component={ProductDetailsScreen} 
-        options={({ route }) => ({ 
-            title: route.params?.product?.name || 'Details',
-            // This hides the tab bar when looking at details if you prefer
-            display: route.params?.product ? 'flex' : 'none' 
-        })}
-      />
-    </Tab.Navigator>
-  );
-};
+export const RootNavigator = () => (
+  <Tab.Navigator screenOptions={{ 
+    headerShown: false, 
+    tabBarActiveTintColor: COLORS.primary 
+  }}>
+    <Tab.Screen name="Shop" component={HomeStack} />
+  </Tab.Navigator>
+);

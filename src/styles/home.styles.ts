@@ -1,264 +1,102 @@
-// styles/home.styles.js
-import { StyleSheet } from "react-native";
-import { COLORS } from "../../constants/color";
+import { StyleSheet, Platform } from "react-native";
+import { COLORS, ACTIVE_LAYOUT } from "../constants/theme"; // Import Master Switches
+
+const isCrystal = ACTIVE_LAYOUT === "crystal";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    // Crystal uses a dark version of the theme, Bento uses the light version
+    backgroundColor: isCrystal ? "#000" : COLORS.background,
   },
-  content: {
-    padding: 20,
-    paddingBottom: 0,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-    paddingHorizontal: 0,
-    paddingVertical: 12,
-  },
-  headerLeft: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  headerLogo: {
-    width: 75,
-    height: 75,
-  },
-  welcomeContainer: {
-    flex: 1,
-  },
-  welcomeText: {
-    fontSize: 14,
-    color: COLORS.textLight,
-    marginBottom: 2,
-  },
-  usernameText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: COLORS.text,
-  },
-  headerRight: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: COLORS.text,
-  },
-  addButton: {
-    backgroundColor: COLORS.primary,
+  
+  // Header Styles
+  headerContainer: {
     paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 24,
-    flexDirection: "row",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    paddingVertical: isCrystal ? 40 : 24, // More space for Crystal
   },
-  addButtonText: {
-    color: COLORS.white,
-    fontWeight: "600",
-    marginLeft: 4,
-  },
-  logoutButton: {
-    padding: 10,
-    borderRadius: 20,
-    backgroundColor: COLORS.card,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  balanceCard: {
-    backgroundColor: COLORS.card,
-    borderRadius: 20,
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: COLORS.shadow,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  balanceTitle: {
-    fontSize: 16,
-    color: COLORS.textLight,
-    marginBottom: 8,
-  },
-  balanceAmount: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: COLORS.text,
-    marginBottom: 20,
-  },
-  balanceStats: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  balanceStatItem: {
-    flex: 1,
-    alignItems: "center",
-  },
-  statDivider: {
-    borderRightWidth: 1,
-    borderColor: COLORS.border,
-  },
-  balanceStatLabel: {
-    fontSize: 14,
-    color: COLORS.textLight,
-    marginBottom: 4,
-  },
-  balanceStatAmount: {
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: COLORS.text,
-    marginBottom: 15,
-  },
-  transactionCard: {
-    backgroundColor: COLORS.card,
-    borderRadius: 12,
-    marginBottom: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    shadowColor: COLORS.shadow,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  transactionContent: {
-    flex: 1,
-    flexDirection: "row",
-    padding: 15,
-    alignItems: "center",
-  },
-  categoryIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#F5F5F5",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 12,
-  },
-  transactionLeft: {
-    flex: 1,
-  },
-  transactionTitle: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: COLORS.text,
-    marginBottom: 4,
-  },
-  transactionCategory: {
-    fontSize: 14,
-    color: COLORS.textLight,
-  },
-  transactionRight: {
-    alignItems: "flex-end",
-  },
-  transactionAmount: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 4,
-  },
-  transactionDate: {
+  label: {
     fontSize: 12,
-    color: COLORS.textLight,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    marginBottom: 4,
+    color: isCrystal ? COLORS.white : COLORS.primary,
   },
-  deleteButton: {
-    padding: 15,
-    borderLeftWidth: 1,
-    borderLeftColor: COLORS.border,
+  title: {
+    fontSize: 32,
+    fontWeight: '900',
+    letterSpacing: -0.5,
+    color: isCrystal ? COLORS.white : COLORS.text,
   },
-  transactionsContainer: {
-    marginBottom: 20,
+
+  // Grid/List Styles
+  listContent: {
+    paddingHorizontal: 8,
+    paddingBottom: 40,
   },
+  cardWrapper: {
+    flex: 1,
+    padding: 6, // Spacing between tiles
+  },
+
+  // Product Card Base
+  card: {
+    flex: 1,
+    borderRadius: 16,
+    overflow: 'hidden',
+    // --- Dynamic Card Styling ---
+    backgroundColor: isCrystal ? "rgba(255, 255, 255, 0.12)" : COLORS.card,
+    borderWidth: isCrystal ? 1 : 0,
+    borderColor: "rgba(255, 255, 255, 0.2)",
+    
+    // Bento Shadow (Modern only)
+    ...(!isCrystal && Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+      },
+      android: {
+        elevation: 3,
+      },
+    })),
+  },
+
+  image: {
+    width: '100%',
+    height: 160,
+    resizeMode: 'cover',
+  },
+  
+  info: {
+    padding: 12,
+  },
+
+  name: {
+    fontWeight: '700',
+    fontSize: 14,
+    color: isCrystal ? COLORS.white : COLORS.text,
+  },
+
+  price: {
+    marginTop: 4,
+    fontWeight: '800',
+    fontSize: 15,
+    color: isCrystal ? COLORS.white : COLORS.primary,
+    opacity: isCrystal ? 0.9 : 1,
+  },
+
+  // Helper for Android Glass
+  androidGlassOverlay: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  },
+
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: COLORS.background,
-  },
-  emptyState: {
-    backgroundColor: COLORS.card,
-    borderRadius: 16,
-    padding: 30,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 10,
-    shadowColor: COLORS.shadow,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  emptyStateIcon: {
-    marginBottom: 16,
-  },
-  emptyStateTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: COLORS.text,
-    marginBottom: 8,
-  },
-  emptyStateText: {
-    color: COLORS.textLight,
-    fontSize: 14,
-    textAlign: "center",
-    marginBottom: 20,
-    lineHeight: 20,
-  },
-  emptyStateButton: {
-    backgroundColor: COLORS.primary,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  emptyStateButtonText: {
-    color: COLORS.white,
-    fontWeight: "600",
-    marginLeft: 6,
-  },
-  transactionsHeaderContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 10,
-    paddingBottom: 5,
-  },
-  transactionsList: {
-    flex: 1,
-    marginHorizontal: 20,
-  },
-  transactionsListContent: {
-    paddingBottom: 20,
+    backgroundColor: isCrystal ? "#000" : COLORS.background,
   },
 });

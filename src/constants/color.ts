@@ -1,5 +1,8 @@
 // constants/colors.js
-const coffeeTheme = {
+import { ACTIVE_THEME } from './theme';
+
+export const PALETTES = {
+coffee : {
     primary: "#8B593E",
     background: "#FFF8F3",
     text: "#4A3428",
@@ -10,9 +13,9 @@ const coffeeTheme = {
     income: "#2ECC71",
     card: "#FFFFFF",
     shadow: "#000000",
-  };
+  },
   
-  const forestTheme = {
+  forest: {
     primary: "#2E7D32",
     background: "#E8F5E9",
     text: "#1B5E20",
@@ -23,9 +26,9 @@ const coffeeTheme = {
     income: "#388E3C",
     card: "#FFFFFF",
     shadow: "#000000",
-  };
+  },
   
-  const purpleTheme = {
+  purple:{
     primary: "#6A1B9A",
     background: "#F3E5F5",
     text: "#4A148C",
@@ -36,9 +39,9 @@ const coffeeTheme = {
     income: "#388E3C",
     card: "#FFFFFF",
     shadow: "#000000",
-  };
+  },
   
-  const oceanTheme = {
+  ocean: {
     primary: "#0277BD",
     background: "#E1F5FE",
     text: "#01579B",
@@ -49,14 +52,16 @@ const coffeeTheme = {
     income: "#26A69A",
     card: "#FFFFFF",
     shadow: "#000000",
-  };
+  },
   
-  export const THEMES = {
-    coffee: coffeeTheme,
-    forest: forestTheme,
-    purple: purpleTheme,
-    ocean: oceanTheme,
-  };
+  // export const THEMES = {
+  //   coffee: coffeeTheme,
+  //   forest: forestTheme,
+  //   purple: purpleTheme,
+  //   ocean: oceanTheme,
+  // },
+
+};
   
-  // 👇 change this to switch theme
-  export const COLORS = THEMES.coffee;
+  // // 👇 change this to switch theme
+  // export const COLORS = themes[ACTIVE_THEME];

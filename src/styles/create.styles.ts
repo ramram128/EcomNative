@@ -1,6 +1,6 @@
 // styles/create.styles.js
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../constants/colors";
+import { COLORS } from "../constants/color";
 
 export const styles = StyleSheet.create({
   container: {
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 20,
+    padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.border,
   },
@@ -38,8 +38,8 @@ export const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: COLORS.card,
-    margin: 16,
-    borderRadius: 16,
+    margin: 10,
+    borderRadius: 10,
     padding: 16,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -80,10 +80,8 @@ export const styles = StyleSheet.create({
   amountContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.border,
-    paddingBottom: 16,
-    marginBottom: 20,
+    paddingBottom: 1,
+    marginBottom: 2,
   },
   currencySymbol: {
     fontSize: 32,
@@ -120,8 +118,8 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     color: COLORS.text,
-    marginBottom: 15,
-    marginTop: 10,
+    marginBottom: 1,
+    marginTop: 1,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -134,7 +132,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 5,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: COLORS.border,
@@ -158,5 +156,31 @@ export const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
+  },
+  productImage: {
+    width: '100%',
+    height: 250,
+    borderRadius: 12,
+    backgroundColor: COLORS.background,
+  },
+  placeholderImage: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderStyle: 'dashed',
+  },
+  iconCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: COLORS.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3, // Android shadow
+    shadowColor: '#000', // iOS shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
   },
 });
