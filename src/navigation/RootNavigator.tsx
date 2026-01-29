@@ -16,8 +16,8 @@ const HomeStack = () => (
 );
 
 export const RootNavigator = () => (
-  <Tab.Navigator screenOptions={{ 
-    headerShown: false, 
+  <Tab.Navigator screenOptions={{
+    headerShown: false,
     tabBarActiveTintColor: COLORS.primary 
   }}>
     <Tab.Screen name="Shop" component={HomeStack} />

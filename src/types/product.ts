@@ -27,20 +27,17 @@ export interface Product {
   short_description: string;
 
   attributes?: ProductAttribute[];
-  variations?: number[];
+  variations?: Variation[];
 }
 
 // Variation
 export interface Variation {
   id: number;
-  variation_id:number;
-  image: WooImage;
   price: string;
   regular_price: string;
-  sale_price: string;
+  sale_price?: string;
   stock_status: 'instock' | 'outofstock';
-  attributes: {
-    name: string;
-    option: string;
-  }[];
+  image?: WooImage;
+  images?: WooImage[];
+  attributes: { name: string; option: string }[];
 }
