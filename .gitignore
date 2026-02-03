@@ -1,6 +1,4 @@
 *
 !src/
 !src/**
-!App.tsx
-!package.json
 !.gitignore
