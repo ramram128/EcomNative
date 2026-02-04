@@ -5,6 +5,6 @@ export type ThemeType = keyof typeof PALETTES;
 
 // 🔥 CHANGE THESE TWO LINES TO TRANSFORM THE APP
 export const ACTIVE_LAYOUT: LayoutType = 'modern'; 
-export const ACTIVE_THEME: ThemeType = 'coffee';
+export const ACTIVE_THEME: ThemeType = 'forest';
 
 export const COLORS = PALETTES[ACTIVE_THEME];

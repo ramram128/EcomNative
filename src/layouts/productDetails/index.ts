@@ -1,8 +1,11 @@
+import { ACTIVE_LAYOUT, LayoutType } from '../../constants/theme';
 import ProductDetailsCrystal from './ProductDetailsLayoutCrystal';
 import ProductDetailsModern from './ProductDetailsLayoutModern';
+import { ProductDetailsLayoutProps } from './types';
 
-
-export const ProductDetailsLayouts = {
+const ProductDetailsMap: Record<LayoutType, React.FC<ProductDetailsLayoutProps>> = {
   crystal: ProductDetailsCrystal,
-  modern: ProductDetailsModern, // reuse for now
+  modern: ProductDetailsModern,
 };
+
+export const SelectedProductDetailsLayout = ProductDetailsMap[ACTIVE_LAYOUT];

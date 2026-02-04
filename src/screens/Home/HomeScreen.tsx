@@ -16,7 +16,21 @@ export default function HomeScreen({ navigation }: any) {
   const loadProducts = async () => {
     try {
       const products = await ProductService.getProducts();
-      setData(products);
+      const enrichedProducts = await Promise.all(
+        products.map(async (product) => {
+          if (product.type !== 'variable') return product;
+          const hasVariationAttribute = product.attributes?.some((attr) => attr.variation);
+          if (!hasVariationAttribute) return product;
+          try {
+            const variations = await ProductService.getVariations(product.id);
+            return { ...product, variations };
+          } catch (e) {
+            console.error('Variation Fetch Error:', e);
+            return product;
+          }
+        })
+      );
+      setData(enrichedProducts);
     } catch (e) {
       console.error("Fetch Error:", e);
     } finally {
@@ -55,7 +69,7 @@ export default function HomeScreen({ navigation }: any) {
       {/* 3. Add the Search Bar UI */}
       <View style={styles.searchContainer}>
         <TextInput
-          placeholder="Search products..."
+          placeholder="Search products"
           placeholderTextColor="#888"
           style={styles.searchInput}
           value={searchQuery}
@@ -91,6 +105,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     padding: 10,
     backgroundColor: COLORS.background,
+    
   },
   searchInput: {
     height: 45,

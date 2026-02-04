@@ -1,6 +1,6 @@
 import axios from 'axios';
 import base64 from 'base-64';
-import { Product } from '../types/product';
+import { Product, Variation } from '../types/product';
 import {
   WOO_BASE_URL,
   WOO_CONSUMER_KEY,
@@ -38,7 +38,7 @@ export const ProductService = {
     return res.data;
   },
 
-  getVariations: async (productId: number) => {
+  getVariations: async (productId: number): Promise<Variation[]> => {
     const res = await api.get(`/products/${productId}/variations`, {
       params: {
         per_page: 100,

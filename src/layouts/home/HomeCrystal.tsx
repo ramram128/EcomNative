@@ -1,9 +1,10 @@
 import React from 'react';
 import { FlatList, View, StyleSheet, StatusBar } from 'react-native';
+import { HomeLayoutProps } from './types';
 import ProductCard from '../../components/ProductCard';
 import { COLORS } from '../../constants/theme';
 
-export default function HomeCrystal({ products, onPress, refreshing, onRefresh }: any) {
+export default function HomeCrystal({ products, onPress, refreshing, onRefresh }: HomeLayoutProps) {
   return (
     <View style={[styles.container, { backgroundColor: COLORS.background }]}>
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />

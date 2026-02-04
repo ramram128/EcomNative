@@ -1,9 +1,9 @@
-// src/layouts/index.ts
-import { ACTIVE_LAYOUT } from 'constants/theme';
+import { ACTIVE_LAYOUT, LayoutType } from '../../constants/theme';
 import HomeCrystal from './HomeCrystal';
 import HomeModern from './HomeModern';
+import { HomeLayoutProps } from './types';
 
-const HomeMap = {
+const HomeMap: Record<LayoutType, React.FC<HomeLayoutProps>> = {
   crystal: HomeCrystal,
   modern: HomeModern,
 };

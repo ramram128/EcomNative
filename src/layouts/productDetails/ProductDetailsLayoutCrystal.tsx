@@ -2,11 +2,12 @@ import React, { memo, useMemo } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, ScrollView, Image, StatusBar } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { styles } from '../../styles/details.styles';
+import { ProductDetailsLayoutProps } from './types';
 import { Glass } from '../../components/Glass'; // Optional: Move Glass to its own file
 
 const ProductDetailsLayoutCrystal = ({ 
   product, navigation, loading, displayImage, selectedOptions, selectedVariation, onSelectOption 
-}: any) => {
+}: ProductDetailsLayoutProps) => {
   const price = useMemo(() => 
     product?.type === 'variable' ? (selectedVariation?.price || product?.price) : product?.price, 
     [product, selectedVariation]

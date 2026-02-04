@@ -5,16 +5,10 @@ import {
   Text, 
   StatusBar, 
 } from 'react-native';
+import { HomeLayoutProps } from './types';
 import ProductCard from '../../components/ProductCard';
 import { COLORS } from '../../constants/theme';
 import { styles } from '../../styles/home.styles';
-
-interface HomeLayoutProps {
-  products: any[];
-  onPress: (product: any) => void;
-  refreshing: boolean;
-  onRefresh: () => void;
-}
 
 export default function HomeModern({ 
   products, 
@@ -30,12 +24,6 @@ export default function HomeModern({
         data={products}
         refreshing={refreshing} // 👈 Add this
         onRefresh={onRefresh}
-        ListHeaderComponent={
-          <View style={styles.headerContainer}>
-            <Text style={styles.label}>Collection</Text>
-            <Text style={styles.title}>Bento Grid</Text>
-          </View>
-        }
         numColumns={2}
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (

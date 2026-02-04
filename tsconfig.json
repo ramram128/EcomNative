@@ -9,16 +9,14 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "baseUrl": "./src",
-      "paths": {
-        "*": ["*"]
-      }
+    "baseUrl": ".", 
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.d.ts"
   ]
-  
-
 }

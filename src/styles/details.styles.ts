@@ -27,6 +27,16 @@ export const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     backgroundColor: isCrystal ? 'rgba(0,0,0,0.35)' : 'transparent',
   },
+  imageScrollContainer: {
+    flexDirection: 'row',
+    padding: 10,
+  },
+  thumbnailImage: {
+    width: 100,
+    height: 100,
+    marginRight: 10,
+    borderRadius: 5,
+  },
 
   // TOP NAVIGATION
   topBar: {

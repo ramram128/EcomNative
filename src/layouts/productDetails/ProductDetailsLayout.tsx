@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { COLORS } from '../../constants/color';
+import { COLORS } from '../../constants/theme';
 import { styles } from '../../styles/create.styles';
 
 export default function ProductDetailsLayout({
@@ -69,6 +69,7 @@ export default function ProductDetailsLayout({
                 ? selectedVariation?.price || product.price
                 : product.price}
             </Text>
+            
           </View>
 
           {/* ATTRIBUTES */}
