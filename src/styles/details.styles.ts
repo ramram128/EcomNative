@@ -188,6 +188,26 @@ export const styles = StyleSheet.create({
 
     disabledBtn: {
       opacity: 0.5, // Replaces { opacity: 0.5 } in JSX
-    }
+    },
+    
+    container: {
+    marginVertical: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 10,
+  },
+  strikeText: {
+    textDecorationLine: 'line-through',
+    fontSize: 16,
+    marginLeft: 5,
+    // No color needed, styles.categoryTitle already handles it!
+  },
+  discountText: {
+    fontSize: 14,
+    color: '#16a34a', // Standard green for discounts, or use COLORS.income
+    marginLeft: 5,
+  }
   
 });
