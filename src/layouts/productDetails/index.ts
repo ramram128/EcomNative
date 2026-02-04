@@ -1,5 +1,5 @@
 import ProductDetailsCrystal from './ProductDetailsLayoutCrystal';
-import ProductDetailsModern from './ProductDetailsLayout';
+import ProductDetailsModern from './ProductDetailsLayoutModern';
 
 
 export const ProductDetailsLayouts = {

@@ -1,78 +1,77 @@
-// src/layouts/productDetails/ProductDetailsLayoutModern.tsx
 import React from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { styles } from '../../styles/create.styles';
+import { styles } from '../../styles/details.styles';
 
-// Define what this layout expects to receive
-interface ModernLayoutProps {
-  product: any;
-  navigation: any;
-  loading: boolean;
+export default function ProductDetailsLayoutModern({ 
+  product, navigation, loading, selectedOptions, onSelectOption 
+}: any) {
   
-  displayImage: string | null;
-  selectedOptions: any;
-  selectedVariation: any;
-  onSelectOption: (name: string, option: string) => void;
-}
-
-export default function ProductDetailsLayoutModern({
-  product,
-  navigation,
-  loading,
-  displayImage,
-  selectedOptions,
-  selectedVariation,
-  onSelectOption,
-}: ModernLayoutProps) {
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={24} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Product Details</Text>
-      </View>
-
-      <ScrollView>
-        <View style={styles.card}>
-          {/* IMAGE - Now uses the displayImage prop */}
-          <Image 
-            source={{ uri: displayImage ?? undefined }} 
-            style={styles.productImage} 
-            />
-          <Text style={styles.sectionTitle}>{product.name}</Text>
+    <SafeAreaView style={styles.mainContainer} edges={['top']}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* IMAGE SECTION */}
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: product?.images?.[0]?.src }} style={styles.fullBgImage} />
           
-          {/* PRICE - Now uses the selectedVariation price */}
-          <Text style={{ fontSize: 24, fontWeight: 'bold' }}>
-            ₹ {selectedVariation?.price || product.price}
-          </Text>
+          <View style={styles.topBar}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.glassCircle}>
+              <Ionicons name="chevron-back" size={24} color="#000" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* CONTENT SECTION */}
+        <View style={styles.cardWrapper}>
+          <Text style={styles.categoryTitle}>Premium Collection</Text>
+          <Text style={styles.productTitle}>{product?.name}</Text>
+          <Text style={styles.priceText}>₹{product?.price}</Text>
 
           {/* ATTRIBUTES */}
-          {product.attributes?.map((attr: any) => (
-            <View key={attr.id}>
-              <Text style={styles.sectionTitle}>{attr.name}</Text>
-              <View style={{ flexDirection: 'row' }}>
-                {attr.options.map((option: string) => {
-                  const isSelected = selectedOptions[attr.name.toLowerCase()] === option;
-                  return (
-                    <TouchableOpacity
-                      key={option}
-                      onPress={() => onSelectOption(attr.name, option)}
-                      style={[styles.categoryButton, isSelected && styles.categoryButtonActive]}
-                    >
-                      <Text style={[styles.categoryButtonText, isSelected && styles.categoryButtonTextActive]}>
-                        {option}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
+          {product?.type === 'variable' && (
+            <View style={styles.attrContainer}>
+              {loading ? <ActivityIndicator color="#000" /> : 
+                product.attributes?.map((attr: any) => (
+                  <View key={attr.id} style={styles.attrRow}>
+                    <Text style={styles.attrLabel}>{attr.name}</Text>
+                    <View style={styles.optionsList}>
+                      {attr.options.map((opt: string) => (
+                        <TouchableOpacity 
+                          key={opt} 
+                          onPress={() => onSelectOption(attr.name, opt)}
+                          style={[styles.optionChip, selectedOptions[attr.name] === opt && styles.activeChip]}
+                        >
+                          <Text style={[styles.optionText, selectedOptions[attr.name] === opt && styles.activeText]}>
+                            {opt}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </View>
+                ))
+              }
             </View>
-          ))}
+          )}
+
+          {/* DESCRIPTION */}
+          <View style={styles.descriptionTile}>
+            <Text style={styles.attrLabel}>Description</Text>
+            <Text style={styles.descBody}>
+              {product?.description?.replace(/<[^>]*>?/gm, '')}
+            </Text>
+          </View>
         </View>
       </ScrollView>
-    </View>
+
+      {/* FOOTER */}
+      <View style={styles.bottomNavWrapper}>
+        <View style={styles.actionPill}>
+          <TouchableOpacity style={styles.addToCartBtn}>
+            <Text style={styles.btnText}>ADD TO BAG</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
