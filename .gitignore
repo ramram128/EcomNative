@@ -15,3 +15,4 @@ ios/build/
 
 # System Files
 .DS_Store
+android/app/.cxx/
