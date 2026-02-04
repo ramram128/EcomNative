@@ -1,0 +1,4 @@
+/home/hunter/Documents/GitHub/EcomNative/android/app/.cxx/Debug/346b2v4j/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir
+/home/hunter/Documents/GitHub/EcomNative/android/app/.cxx/Debug/346b2v4j/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir
+/home/hunter/Documents/GitHub/EcomNative/android/app/.cxx/Debug/346b2v4j/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/edit_cache.dir
+/home/hunter/Documents/GitHub/EcomNative/android/app/.cxx/Debug/346b2v4j/x86/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/rebuild_cache.dir

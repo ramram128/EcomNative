@@ -1,0 +1,67 @@
+{
+  "buildFiles": [
+    "/home/hunter/Documents/GitHub/EcomNative/node_modules/@react-native-community/blur/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/home/hunter/Documents/GitHub/EcomNative/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
+    "/home/hunter/Documents/GitHub/EcomNative/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
+    "/home/hunter/Documents/GitHub/EcomNative/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/CMakeLists.txt",
+    "/home/hunter/Documents/GitHub/EcomNative/node_modules/react-native/ReactAndroid/cmake-utils/default-app-setup/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/hunter/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/hunter/Documents/GitHub/EcomNative/android/app/.cxx/Debug/346b2v4j/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/hunter/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/hunter/Documents/GitHub/EcomNative/android/app/.cxx/Debug/346b2v4j/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "react_codegen_RNVectorIconsSpec::@479809fae146501fd34d": {
+      "artifactName": "react_codegen_RNVectorIconsSpec",
+      "abi": "armeabi-v7a",
+      "runtimeFiles": []
+    },
+    "react_codegen_safeareacontext::@7984cd80db47aa7b952a": {
+      "artifactName": "react_codegen_safeareacontext",
+      "abi": "armeabi-v7a",
+      "output": "/home/hunter/Documents/GitHub/EcomNative/android/app/build/intermediates/cxx/Debug/346b2v4j/obj/armeabi-v7a/libreact_codegen_safeareacontext.so",
+      "runtimeFiles": [
+        "/home/hunter/.gradle/caches/9.0.0/transforms/b85f62a599074afc3b2ec6cfb7884973/transformed/fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so",
+        "/home/hunter/.gradle/caches/9.0.0/transforms/f97a0c8835e876dfb08e8efd6d33fd2f/transformed/react-android-0.83.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
+        "/home/hunter/.gradle/caches/9.0.0/transforms/f97a0c8835e876dfb08e8efd6d33fd2f/transformed/react-android-0.83.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so"
+      ]
+    },
+    "react_codegen_rnblurview::@9a34ffec6e39b5c9049e": {
+      "artifactName": "react_codegen_rnblurview",
+      "abi": "armeabi-v7a",
+      "runtimeFiles": []
+    },
+    "react_codegen_rnscreens::@25bcbd507e98d3a854ad": {
+      "artifactName": "react_codegen_rnscreens",
+      "abi": "armeabi-v7a",
+      "output": "/home/hunter/Documents/GitHub/EcomNative/android/app/build/intermediates/cxx/Debug/346b2v4j/obj/armeabi-v7a/libreact_codegen_rnscreens.so",
+      "runtimeFiles": [
+        "/home/hunter/.gradle/caches/9.0.0/transforms/f97a0c8835e876dfb08e8efd6d33fd2f/transformed/react-android-0.83.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so",
+        "/home/hunter/.gradle/caches/9.0.0/transforms/f97a0c8835e876dfb08e8efd6d33fd2f/transformed/react-android-0.83.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
+        "/home/hunter/.gradle/caches/9.0.0/transforms/b85f62a599074afc3b2ec6cfb7884973/transformed/fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so"
+      ]
+    },
+    "appmodules::@6890427a1f51a3e7e1df": {
+      "artifactName": "appmodules",
+      "abi": "armeabi-v7a",
+      "output": "/home/hunter/Documents/GitHub/EcomNative/android/app/build/intermediates/cxx/Debug/346b2v4j/obj/armeabi-v7a/libappmodules.so",
+      "runtimeFiles": [
+        "/home/hunter/Documents/GitHub/EcomNative/android/app/build/intermediates/cxx/Debug/346b2v4j/obj/armeabi-v7a/libreact_codegen_safeareacontext.so",
+        "/home/hunter/Documents/GitHub/EcomNative/android/app/build/intermediates/cxx/Debug/346b2v4j/obj/armeabi-v7a/libreact_codegen_rnscreens.so",
+        "/home/hunter/.gradle/caches/9.0.0/transforms/b85f62a599074afc3b2ec6cfb7884973/transformed/fbjni-0.7.0/prefab/modules/fbjni/libs/android.armeabi-v7a/libfbjni.so",
+        "/home/hunter/.gradle/caches/9.0.0/transforms/f97a0c8835e876dfb08e8efd6d33fd2f/transformed/react-android-0.83.1-debug/prefab/modules/jsi/libs/android.armeabi-v7a/libjsi.so",
+        "/home/hunter/.gradle/caches/9.0.0/transforms/f97a0c8835e876dfb08e8efd6d33fd2f/transformed/react-android-0.83.1-debug/prefab/modules/reactnative/libs/android.armeabi-v7a/libreactnative.so"
+      ]
+    }
+  }
+}
