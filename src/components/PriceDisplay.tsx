@@ -1,30 +1,45 @@
-// src/components/product/PriceDisplay.tsx
 import React, { useMemo } from 'react';
 import { View, Text } from 'react-native';
-import { Product } from '../types/product';
-import { getPriceDetails } from './utils/priceHelpers';
-import { styles } from '../styles/details.styles';
-import { COLORS } from '../constants/theme';
 
-export const PriceDisplay = ({ product }: { product: Product}) => {
-  const { showBoth, discountPercent, inrRegular, inrSale, finalPrice } = useMemo(() => getPriceDetails(product), [product]);
+import type { Product } from '../types/product';
+import { getPriceDetails } from './utils/priceHelpers';
+
+import { styles } from '../styles/details.styles';
+
+type Props = {
+  product: Product;
+};
+
+export const PriceDisplay: React.FC<Props> = ({ product }) => {
+  const {
+    showBoth,
+    discountPercent,
+    inrRegular,
+    inrSale,
+    finalPrice,
+  } = useMemo(() => getPriceDetails(product), [product]);
 
   return (
     <View style={styles.container}>
       {showBoth ? (
-        <>
-          <Text style={[styles.priceText, { color:  COLORS.shadow }]}>
+        <View style={styles.priceRow}>
+          {/* Regular price (striked) */}
+          <Text style={styles.strikeText}>
             ₹{inrRegular}
           </Text>
-          <Text style={[styles.categoryTitle, { color:COLORS.primary }]}>
+
+          {/* Sale price (big & bold) */}
+          <Text style={styles.salePriceText}>
             ₹{inrSale}
           </Text>
-          <Text style={[styles.activeText, { color: COLORS.income }]}>
-             ({discountPercent}% off)
+
+          {/* Discount */}
+          <Text style={styles.discountText}>
+            ({discountPercent}% OFF)
           </Text>
-        </>
+        </View>
       ) : (
-        <Text style={[styles.priceText, { color:COLORS.primary }]}>
+        <Text style={styles.salePriceText}>
           ₹{finalPrice}
         </Text>
       )}

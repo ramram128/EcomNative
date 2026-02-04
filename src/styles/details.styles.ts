@@ -6,11 +6,11 @@ const isCrystal = ACTIVE_LAYOUT === 'crystal';
 
 export const styles = StyleSheet.create({
   // MAIN CONTAINERS
-  mainContainer: { 
-    flex: 1, 
-    backgroundColor: isCrystal ? '#000' : '#FFFFFF' 
+  mainContainer: {
+    flex: 1,
+    backgroundColor: isCrystal ? '#000' : '#FFFFFF',
   },
-  
+
   // IMAGE SECTION
   imageContainer: {
     width: '100%',
@@ -18,10 +18,10 @@ export const styles = StyleSheet.create({
     backgroundColor: isCrystal ? 'transparent' : '#F9F9F9',
     position: 'relative',
   },
-  fullBgImage: { 
-    width: '100%', 
+  fullBgImage: {
+    width: '100%',
     height: '100%',
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   darkOverlay: {
     ...StyleSheet.absoluteFillObject,
@@ -58,10 +58,16 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: isCrystal ? 'rgba(255,255,255,0.3)' : '#EEE',
     backgroundColor: isCrystal ? 'transparent' : '#FFF',
-    ...(!isCrystal && Platform.select({
-      ios: { shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4 },
-      android: { elevation: 3 },
-    })),
+    ...(!isCrystal &&
+      Platform.select({
+        ios: {
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+        },
+        android: { elevation: 3 },
+      })),
   },
 
   // PRODUCT INFO CARD
@@ -91,7 +97,7 @@ export const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   priceText: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: isCrystal ? '300' : '800',
     color: isCrystal ? '#FFF' : '#000',
     marginVertical: 14,
@@ -114,13 +120,13 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: isCrystal ? 'rgba(255,255,255,0.1)' : '#F5F5F5',
   },
-  activeChip: { 
-    backgroundColor: isCrystal ? '#FFF' : COLORS.primary 
+  activeChip: {
+    backgroundColor: isCrystal ? '#FFF' : COLORS.primary,
   },
   optionText: { color: isCrystal ? '#FFF' : '#444' },
-  activeText: { 
-    color: isCrystal ? '#000' : '#FFF', 
-    fontWeight: '800' 
+  activeText: {
+    color: isCrystal ? '#000' : '#FFF',
+    fontWeight: '800',
   },
 
   // DESCRIPTION
@@ -171,43 +177,53 @@ export const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   androidGlass: { backgroundColor: 'rgba(255,255,255,0.08)' },
-  
-    backgroundWrapper: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-    },
-    heroSpacing: {
-      height: 350, // Replaces { height: 350 } in JSX
-    },
-    attributeGroup: {
-      marginBottom: 15,
-    },
 
-    disabledBtn: {
-      opacity: 0.5, // Replaces { opacity: 0.5 } in JSX
-    },
-    
-    container: {
+  backgroundWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  heroSpacing: {
+    height: 350,
+  },
+  attributeGroup: {
+    marginBottom: 15,
+  },
+
+  disabledBtn: {
+    opacity: 0.5,
+  },
+
+  /* ===================== PRICE DISPLAY (UPDATED) ===================== */
+
+  container: {
     marginVertical: 10,
   },
-  row: {
+
+  priceRow: {
     flexDirection: 'row',
     alignItems: 'baseline',
     gap: 10,
   },
+
   strikeText: {
     textDecorationLine: 'line-through',
-    fontSize: 16,
-    marginLeft: 5,
-    // No color needed, styles.categoryTitle already handles it!
-  },
-  discountText: {
     fontSize: 14,
-    color: '#16a34a', // Standard green for discounts, or use COLORS.income
-    marginLeft: 5,
-  }
-  
+    fontWeight: '600',
+    color: isCrystal ? 'rgba(255,255,255,0.6)' : '#888',
+  },
+
+  salePriceText: {
+    fontSize: 18, // BIG sale price
+    fontWeight: '900',
+    color: COLORS.primary,
+  },
+
+  discountText: {
+    fontSize: 14, // normal size
+    fontWeight: '700',
+    color: COLORS.income, // use theme green
+  },
 });
