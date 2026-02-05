@@ -1,4 +1,3 @@
-// styles/create.styles.js
 import { StyleSheet } from "react-native";
 import { COLORS } from "../constants/theme";
 
@@ -7,6 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
+
   header: {
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
   backButton: {
     padding: 5,
   },
+
   saveButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -37,6 +38,7 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     zIndex: 10,
   },
+
   card: {
     backgroundColor: COLORS.card,
     margin: 10,
@@ -48,6 +50,7 @@ export const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+
   typeSelector: {
     flexDirection: "row",
     marginBottom: 20,
@@ -78,6 +81,7 @@ export const styles = StyleSheet.create({
   typeButtonTextActive: {
     color: COLORS.white,
   },
+
   amountContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -96,6 +100,7 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     color: COLORS.text,
   },
+
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -115,15 +120,15 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.text,
   },
+
   sectionTitle: {
     fontSize: 18,
     fontWeight: "600",
     color: COLORS.text,
     marginBottom: 1,
     marginTop: 1,
-    flexDirection: "row",
-    alignItems: "center",
   },
+
   categoryGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -153,94 +158,178 @@ export const styles = StyleSheet.create({
   categoryButtonTextActive: {
     color: COLORS.white,
   },
+
   loadingContainer: {
     padding: 20,
     alignItems: "center",
     justifyContent: "center",
   },
+
   productImage: {
-    width: '100%',
+    width: "100%",
     height: 250,
     borderRadius: 12,
     backgroundColor: COLORS.background,
   },
+
   placeholderImage: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderWidth: 1,
     borderColor: COLORS.border,
-    borderStyle: 'dashed',
+    borderStyle: "dashed",
   },
+
   iconCircle: {
     width: 40,
     height: 40,
     borderRadius: 20,
     backgroundColor: COLORS.white,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 3, // Android shadow
-    shadowColor: '#000', // iOS shadow
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 3,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 4,
   },
+
   categoryName: {
     fontSize: 14,
     color: COLORS.textLight,
     marginTop: 4,
   },
-    /* ================= IMAGE + WISHLIST ================= */
+
+  /* ================= IMAGE + WISHLIST ================= */
 
   imageWrapper: {
-    position: 'relative',
+    position: "relative",
   },
 
   wishlistBtn: {
-    position: 'absolute',
+    position: "absolute",
     top: 10,
     right: 10,
     width: 38,
     height: 38,
     borderRadius: 19,
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    // Shadow
-    shadowColor: '#000',
+    backgroundColor: "rgba(255,255,255,0.9)",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 4,
     elevation: 4,
   },
-    /* ================= TITLE + RATING ================= */
 
+  /* ===== Product Details Scroll ===== */
+  detailsScrollContent: {
+    paddingBottom: 10,
+  },
+
+  /* ===== Title + Rating in same line ===== */
   titleRow: {
+    marginTop: 10,
+    marginBottom: 6,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 10,
+  },
+
+  ratingRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+
+  starsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
+  },
+
+  ratingText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: COLORS.textLight,
+  },
+
+  /* ===== Big Price ===== */
+  priceBig: {
+    fontSize: 24,
+    fontWeight: "900",
+    color: COLORS.text,
+    marginTop: 2,
+    marginBottom: 10,
+  },
+
+  /* ===== Add To Cart Fixed Bar ===== */
+  addToCartBar: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    paddingBottom: 14,
+    backgroundColor: COLORS.background,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
+  },
+
+  addToCartBtn: {
+    height: 52,
+    borderRadius: 14,
+    backgroundColor: COLORS.primary,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: 8,
+  },
+
+  addToCartBtnDisabled: {
+    opacity: 0.55,
+  },
+
+  addToCartText: {
+    color: COLORS.white,
+    fontSize: 15,
+    fontWeight: "900",
+  },
+  /* ===== Bottom Action Row ===== */
+actionRow: {
   flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  marginTop: 10,
-  marginBottom: 6,
-  gap: 10,
+  gap: 12,
 },
 
-ratingRow: {
-  flexDirection: 'row',
+actionBtn: {
+  flex: 1,
+  height: 52,
+  borderRadius: 14,
   alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'row',
   gap: 6,
 },
 
-starsRow: {
-  flexDirection: 'row',
-  alignItems: 'center',
+cartBtn: {
+  backgroundColor: COLORS.primary,
 },
 
-ratingText: {
-  fontSize: 12,
-  fontWeight: '700',
-  color: COLORS.textLight,
+orderBtn: {
+  backgroundColor: '#000', // or COLORS.success / COLORS.accent
 },
 
+actionBtnDisabled: {
+  opacity: 0.55,
+},
 
+actionText: {
+  color: COLORS.white,
+  fontSize: 14,
+  fontWeight: '900',
+},
 
 });
