@@ -1,0 +1,221 @@
+import { StyleSheet, Platform } from "react-native";
+import { COLORS, ACTIVE_LAYOUT } from "../constants/theme"; // Import Master Switches
+
+const isCrystal = ACTIVE_LAYOUT === "crystal";
+
+export const styles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  scroll: {
+    paddingBottom: 12,
+    backgroundColor: '#fff',
+  },
+
+  headerWrap: {
+    backgroundColor: '#fff',
+    paddingBottom: 12,
+  },
+  headerTopRow: {
+    paddingHorizontal: 16,
+    paddingTop: 6,
+    paddingBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  backBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#111',
+  },
+
+  waveHolder: {
+    height: 170,
+    marginHorizontal: 16,
+    borderRadius: 26,
+    overflow: 'hidden',
+    backgroundColor: '#f4f4f4',
+  },
+  wave: {
+    position: 'absolute',
+    left: -40,
+    right: -40,
+    bottom: -70,
+    height: 170,
+    borderRadius: 999,
+    backgroundColor: '#d4145a',
+    transform: [{ rotate: '-8deg' }],
+  },
+  waveAccent1: {
+    position: 'absolute',
+    left: -20,
+    right: -60,
+    bottom: -95,
+    height: 190,
+    borderRadius: 999,
+    backgroundColor: '#ff4f7f',
+    opacity: 0.75,
+    transform: [{ rotate: '6deg' }],
+  },
+  waveAccent2: {
+    position: 'absolute',
+    left: -70,
+    right: -10,
+    bottom: -110,
+    height: 210,
+    borderRadius: 999,
+    backgroundColor: '#ff8fb0',
+    opacity: 0.45,
+    transform: [{ rotate: '-3deg' }],
+  },
+
+  profileCard: {
+    marginTop: -62,
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  avatarWrap: {
+    width: 86,
+    height: 86,
+    borderRadius: 43,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 6 },
+  },
+  avatar: {
+    width: 78,
+    height: 78,
+    borderRadius: 39,
+  },
+  cameraBtn: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOpacity: 0.14,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+  },
+  name: {
+    marginTop: 10,
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#111',
+  },
+  role: {
+    marginTop: 2,
+    fontSize: 12,
+    color: '#666',
+    fontWeight: '600',
+  },
+
+  section: {
+    paddingHorizontal: 16,
+    marginTop: 6,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#111',
+    marginBottom: 10,
+  },
+
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  gridItem: {
+    width: '31%',
+    alignItems: 'center',
+    marginBottom: 14,
+  },
+  gridIconCircle: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#f2f2f2',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  gridLabel: {
+    marginTop: 8,
+    fontSize: 11,
+    textAlign: 'center',
+    color: '#444',
+    fontWeight: '600',
+  },
+
+  menuCard: {
+    marginTop: 10,
+    marginHorizontal: 16,
+    borderRadius: 16,
+    backgroundColor: '#fff',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 6 },
+    overflow: 'hidden',
+  },
+  menuRow: {
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  menuLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  menuText: {
+    fontSize: 14,
+    color: '#111',
+    fontWeight: '700',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#f1f1f1',
+    marginLeft: 14,
+  },
+
+  logoutBtn: {
+    marginTop: 14,
+    marginHorizontal: 16,
+    borderRadius: 14,
+    paddingVertical: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 8,
+    backgroundColor: '#f7f7f7',
+  },
+  logoutText: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#555',
+  },
+});
