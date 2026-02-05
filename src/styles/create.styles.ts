@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     alignItems: "center",
     padding: 10,
     borderBottomWidth: 1,
@@ -33,8 +33,9 @@ export const styles = StyleSheet.create({
   },
   saveButton: {
     fontSize: 16,
-    color: COLORS.primary,
+    color: COLORS.shadow,
     fontWeight: "600",
+    zIndex: 10,
   },
   card: {
     backgroundColor: COLORS.card,
@@ -183,4 +184,63 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowRadius: 4,
   },
+  categoryName: {
+    fontSize: 14,
+    color: COLORS.textLight,
+    marginTop: 4,
+  },
+    /* ================= IMAGE + WISHLIST ================= */
+
+  imageWrapper: {
+    position: 'relative',
+  },
+
+  wishlistBtn: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    // Shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+    /* ================= TITLE + RATING ================= */
+
+  titleRow: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  marginTop: 10,
+  marginBottom: 6,
+  gap: 10,
+},
+
+ratingRow: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: 6,
+},
+
+starsRow: {
+  flexDirection: 'row',
+  alignItems: 'center',
+},
+
+ratingText: {
+  fontSize: 12,
+  fontWeight: '700',
+  color: COLORS.textLight,
+},
+
+
+
 });
