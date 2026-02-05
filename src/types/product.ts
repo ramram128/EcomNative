@@ -25,7 +25,10 @@ export interface Product {
   images: WooImage[];
   description: string;
   short_description: string;
-
+  date_created?: string;  
+  date_created_gmt?: string;
+  avg_rating?: number;
+  rating_count?: number;
   attributes?: ProductAttribute[];
   variations?: Variation[];
 }

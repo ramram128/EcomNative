@@ -1,15 +1,24 @@
-import { StyleSheet, Platform } from "react-native";
-import { COLORS, ACTIVE_LAYOUT } from "../constants/theme"; // Import Master Switches
+import { StyleSheet, Platform } from 'react-native';
+import { COLORS, ACTIVE_LAYOUT } from '../constants/theme';
 
-const isCrystal = ACTIVE_LAYOUT === "crystal";
+const isCrystal = ACTIVE_LAYOUT === 'crystal';
 
 export const styles = StyleSheet.create({
-
-      baseCard: {
+  baseCard: {
     flex: 1,
-    margin: 5,
-    borderRadius: 16,
+    borderRadius: 11,
     overflow: 'hidden',
+    backgroundColor: isCrystal
+      ? 'rgba(255, 255, 255, 0.12)'
+      : COLORS.border,
+    borderWidth: isCrystal ? 1 : 0,
+    borderColor: isCrystal
+      ? 'rgba(255, 255, 255, 0.2)'
+      : 'transparent',
+  },
+
+  imageWrapper: {
+    position: 'relative',
   },
 
   image: {
@@ -18,110 +27,81 @@ export const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
 
-  // Badge
+  /* ================= BADGES ================= */
+
   badge: {
     position: 'absolute',
-    left: 10,
-    top: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 999,
+    top: 8,
+    paddingHorizontal: 9,
+    paddingVertical: 4,
+    borderRadius: 6,
+    zIndex: 20,
   },
-  badgeBento: {
-    backgroundColor: 'rgba(0,0,0,0.75)',
+
+  badgeText: {
+    fontSize: 11,
+    fontWeight: '900',
+    color: '#fff',
+    letterSpacing: 0.4,
   },
-  badgeCrystal: {
-    backgroundColor: 'rgba(255,255,255,0.28)',
-    borderWidth: 1,
+
+  /* LEFT: DISCOUNT */
+  discountBadgeLeft: {
+    left: 8,
+    backgroundColor: isCrystal
+      ? 'rgba(255, 255, 255, 0.25)'
+      : '#00000090',
+    borderWidth: isCrystal ? 1 : 0,
     borderColor: 'rgba(255,255,255,0.35)',
   },
-  badgeText: {
-    color: '#fff',
-    fontWeight: '800',
-    fontSize: 12,
-    letterSpacing: 0.3,
+
+  /* RIGHT: NEW ARRIVAL */
+  newBadgeRight: {
+    right: 8,
+    top: 8,
+    backgroundColor: isCrystal
+      ? 'rgba(255, 255, 255, 0.25)'
+      : '#00000090',
+    borderWidth: isCrystal ? 1 : 0,
+    borderColor: 'rgba(255,255,255,0.35)'
   },
 
-  info: { padding: 12 },
-  name: { fontWeight: '700', fontSize: 14, marginBottom: 6 },
+  /* ================= INFO ================= */
 
-  // ✅ Price row
+  info: {
+    padding: 10,
+  },
+
+  name: {
+    fontWeight: '700',
+    fontSize: 14,
+    marginBottom: 0,
+  },
+
+  /* ================= PRICE ================= */
+
   priceRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
+    alignItems: 'baseline',
+    gap: 8,
   },
+
   regularPrice: {
     fontSize: 14,
     fontWeight: '700',
     textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
-    marginRight: 8,
-    lineHeight: 18,
+    color: '#888',
   },
+
   salePrice: {
     fontSize: 16,
     fontWeight: '800',
-    lineHeight: 20,
+    color: COLORS.primary,
   },
+
   offText: {
     fontSize: 12,
     fontWeight: '700',
-    opacity: 0.95,
+    color: COLORS.income,
   },
-
-  // 💎 CRYSTAL SPECIFIC (Glassmorphism)
-  crystalContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.12)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-  },
-  androidGlass: {
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-  },
-
-  // 🍱 BENTO SPECIFIC (Modern Tile)
-  bentoContainer: {
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.05)',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
-  },
-
-  discountBadge: {
-    position: 'absolute',
-    top: 8,
-    left: 8,
-    // Modern rounded pill shape
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-    zIndex: 10,
-    
-    // Theme-based styling
-    backgroundColor: isCrystal 
-      ? 'rgba(255, 255, 255, 0.2)' // Frosted glass for Crystal
-      : '#388e3c',                 // Solid Green for Bento/Standard
-      
-    // Add a slight blur/border for Crystal mode
-    borderWidth: isCrystal ? 1 : 0,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
-  },
-
-  discountText: {
-    fontSize: 10,
-    fontWeight: '800',
-    color: '#FFFFFF',
-    textTransform: 'uppercase',
-  },
-})
+});

@@ -5,8 +5,9 @@ import {
   Text,
   Image,
 } from 'react-native';
+
 import { Product } from '../types/product';
-import { COLORS, ACTIVE_LAYOUT } from '../constants/theme';
+import { COLORS } from '../constants/theme';
 import { styles } from '../styles/productcard.styles';
 import { PriceDisplay } from './PriceDisplay';
 import { getPriceDetails } from './utils/priceHelpers';
@@ -16,51 +17,70 @@ interface Props {
   onPress: () => void;
 }
 
-const toNumber = (v: any) => {
-  if (v === undefined || v === null) return NaN;
-  const n = Number(String(v).replace(/[^\d.]/g, ''));
-  return Number.isFinite(n) ? n : NaN;
+/* =================== DATE HELPER =================== */
+const isNewArrival = (dateCreatedGmt?: string, days = 10): boolean => {
+  if (!dateCreatedGmt) return false;
+
+  const createdUTC = new Date(dateCreatedGmt).getTime();
+  if (isNaN(createdUTC)) return false;
+
+  const diffInDays =
+    (Date.now() - createdUTC) / (1000 * 60 * 60 * 24);
+
+  return diffInDays <= days;
 };
 
-const formatINR = (value: any) => {
-  const n = toNumber(value);
-  if (!Number.isFinite(n)) return String(value ?? '');
-  try {
-    // ✅ Best in modern RN (Hermes supports Intl in most setups)
-    return new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n);
-  } catch {
-    // Fallback
-    return String(Math.round(n));
-  }
-};
+/* =================== BADGES =================== */
 
 const DiscountBadge = ({ percent }: { percent: number }) => (
-  <View style={styles.discountBadge}>
-    <Text style={styles.discountText}>{percent}% off</Text>
+  <View style={[styles.badge, styles.discountBadgeLeft]}>
+    <Text style={styles.badgeText}>{percent}% OFF</Text>
   </View>
 );
 
+const NewArrivalBadge = () => (
+  <View style={[styles.badge, styles.newBadgeRight]}>
+    <Text style={styles.badgeText}>NEW</Text>
+  </View>
+);
+
+/* =================== COMPONENT =================== */
+
 const ProductCard = ({ product, onPress }: Props) => {
-  const { showBoth, discountPercent } = useMemo(() => getPriceDetails(product), [product]);
+  const { showBoth, discountPercent } = useMemo(
+    () => getPriceDetails(product),
+    [product]
+  );
+
+  const isNew = useMemo(
+    () => isNewArrival(product.date_created_gmt, 101),
+    [product.date_created_gmt]
+  );
 
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.baseCard]}>
-      
+    <TouchableOpacity onPress={onPress} style={styles.baseCard}>
+      <View style={styles.imageWrapper}>
+        <Image
+          source={{ uri: product.images?.[0]?.src }}
+          style={styles.image}
+        />
 
-      <View>
-        <Image source={{ uri: product.images?.[0]?.src }} style={styles.image} />
-        {showBoth && <DiscountBadge percent={discountPercent}/>}
+        {/* LEFT SIDE: DISCOUNT */}
+        {showBoth && <DiscountBadge percent={discountPercent} />}
+
+        {/* RIGHT SIDE: NEW ARRIVAL */}
+        {isNew && <NewArrivalBadge />}
       </View>
 
       <View style={styles.info}>
         <Text numberOfLines={1} style={[styles.name, { color: COLORS.text }]}>
           {product.name}
         </Text>
-        
-        {/* REUSABLE COMPONENT USED HERE */}
+
         <PriceDisplay product={product} />
       </View>
     </TouchableOpacity>
   );
 };
+
 export default ProductCard;
