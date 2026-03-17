@@ -9,6 +9,8 @@ export type CartItem = {
 type State = {
   wishlist: Product[];
   cart: CartItem[];
+  isAuthenticated: boolean;
+  user: any; // TODO: define user type
 };
 
 type Action =
@@ -17,11 +19,14 @@ type Action =
   | { type: 'ADD_TO_CART'; product: Product; qty?: number }
   | { type: 'REMOVE_FROM_CART'; productId: number }
   | { type: 'SET_QTY'; productId: number; qty: number }
-  | { type: 'CLEAR_CART' };
+  | { type: 'CLEAR_CART' }
+  | { type: 'SET_AUTH'; isAuthenticated: boolean; user?: any };
 
 const initialState: State = {
   wishlist: [],
   cart: [],
+  isAuthenticated: false,
+  user: null,
 };
 
 const toNumber = (v: any) => {
@@ -74,6 +79,9 @@ function reducer(state: State, action: Action): State {
     case 'CLEAR_CART':
       return { ...state, cart: [] };
 
+    case 'SET_AUTH':
+      return { ...state, isAuthenticated: action.isAuthenticated, user: action.user };
+
     default:
       return state;
   }
@@ -94,7 +102,9 @@ type ShopContextValue = {
 
   cartCount: number;
   cartTotal: number;
-};
+  isAuthenticated: boolean;
+  user: any;
+  setAuth: (isAuthenticated: boolean, user?: any) => void;};
 
 const ShopContext = createContext<ShopContextValue | null>(null);
 
@@ -120,6 +130,10 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
 
       cartCount,
       cartTotal,
+
+      isAuthenticated: state.isAuthenticated,
+      user: state.user,
+      setAuth: (isAuthenticated, user) => dispatch({ type: 'SET_AUTH', isAuthenticated, user }),
     };
   }, [state]);
 

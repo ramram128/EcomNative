@@ -7,23 +7,12 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../navigation/types';
 import { styles } from '../../styles/profileScreen.styles';
 import ProfileHeader from '../../components/ProfileHeader';
 import OrdersSection from '../../components/OrdersSection';
 import MenuSection from '../../components/MenuSection';
 import LogoutButton from '../../components/LogoutButton';
-
-/**
- * Keep this here for easy copy-paste.
- * If you already have src/navigation/types.ts, move this there and import it instead.
- */
-export type RootStackParamList = {
-  Orders: { status: 'pending' | 'delivered' | 'processing' | 'cancelled' };
-  Wishlist: undefined;
-  CustomerCare: undefined;
-  EditProfile: undefined;
-  ShippingAddress: undefined;
-};
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
 

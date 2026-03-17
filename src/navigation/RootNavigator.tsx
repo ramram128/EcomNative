@@ -16,6 +16,8 @@ import ShippingAddressScreen from '../screens/Profile/ShippingAddressScreen';
 import CustomerCareScreen from '../screens/Profile/CustomerCareScreen';
 import OrdersScreen from '../screens/Profile/OrdersScreen';
 
+import AuthScreen from '../screens/Auth/AuthScreen';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../constants/theme';
 
@@ -27,7 +29,7 @@ import { COLORS } from '../constants/theme';
 export type HomeStackParamList = {
   Home: undefined;
   ProductDetails: { id?: string } | undefined;
-};
+};// FIX: Use the EXACT names from your imports above
 
 // Bottom tabs
 export type TabParamList = {
@@ -38,8 +40,9 @@ export type TabParamList = {
   Profile: undefined;
 };
 
-// ✅ Root stack above tabs
+// Root stack above tabs
 export type RootStackParamList = {
+  Auth: undefined;
   Tabs: NavigatorScreenParams<TabParamList>;
 
   // Profile menu screens
@@ -120,6 +123,7 @@ const Tabs = () => {
 export const RootNavigator = () => {
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      <RootStack.Screen name="Auth" component={AuthScreen} />
       <RootStack.Screen name="Tabs" component={Tabs} />
 
       {/* Profile menu screens */}

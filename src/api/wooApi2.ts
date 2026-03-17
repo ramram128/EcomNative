@@ -1,16 +1,10 @@
 import axios from 'axios';
-import base64 from 'base-64';
 import { Product, Variation } from '../types/product';
 import {
   WOO_BASE_URL,
   WOO_CONSUMER_KEY,
   WOO_CONSUMER_SECRET
 } from '@env';
-
-const authHeader = () => {
-  const credentials = `${WOO_CONSUMER_KEY}:${WOO_CONSUMER_SECRET}`;
-  return `Basic ${base64.encode(credentials)}`;
-};
 
 const api = axios.create({
   baseURL: `${WOO_BASE_URL}/wp-json/wc/v3`,
@@ -44,6 +38,33 @@ export const ProductService = {
         per_page: 100,
       },
     });
+    return res.data;
+  },
+};
+
+export const CustomerService = {
+  register: async (customerData: {
+    email: string;
+    password: string;
+    first_name: string;
+    last_name: string;
+  }) => {
+    const res = await api.post('/customers', customerData);
+    return res.data;
+  },
+
+  getCustomer: async (id: number) => {
+    const res = await api.get(`/customers/${id}`);
+    return res.data;
+  },
+
+  updateCustomer: async (id: number, customerData: any) => {
+    const res = await api.put(`/customers/${id}`, customerData);
+    return res.data;
+  },
+
+  deleteCustomer: async (id: number) => {
+    const res = await api.delete(`/customers/${id}`);
     return res.data;
   },
 };

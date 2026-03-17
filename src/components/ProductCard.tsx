@@ -8,7 +8,7 @@ import {
 
 import { Product } from '../types/product';
 import { COLORS } from '../constants/theme';
-import { styles } from '../styles/productcard.styles';
+import { styles } from '../styles/details.styles';
 import { PriceDisplay } from './PriceDisplay';
 import { getPriceDetails } from './utils/priceHelpers';
 

@@ -1,13 +1,31 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { useShop } from '../../store/shopStore';
 import { COLORS } from '../../constants/theme';
 
 const CartScreen = () => {
-  const { cart, cartTotal, setQty, removeFromCart, clearCart } = useShop();
+  const navigation = useNavigation();
+  const { cart, cartTotal, setQty, removeFromCart, clearCart, isAuthenticated } = useShop();
+
+  const handleCheckout = () => {
+    if (!isAuthenticated) {
+      Alert.alert(
+        'Login Required',
+        'Please login to proceed with checkout.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Login', onPress: () => navigation.navigate('Auth' as never) },
+        ]
+      );
+      return;
+    }
+    // TODO: Proceed with checkout
+    Alert.alert('Checkout', 'Checkout functionality coming soon!');
+  };
 
   return (
     <SafeAreaView style={styles.safe}   edges={['left', 'right']}>
@@ -82,7 +100,7 @@ const CartScreen = () => {
               <Text style={styles.totalValue}>₹ {Math.round(cartTotal)}</Text>
             </View>
 
-            <TouchableOpacity style={styles.checkoutBtn} activeOpacity={0.9}>
+            <TouchableOpacity style={styles.checkoutBtn} activeOpacity={0.9} onPress={handleCheckout}>
               <Text style={styles.checkoutText}>Checkout</Text>
             </TouchableOpacity>
           </View>

@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { styles } from '../styles/profileScreen.styles';
 import { getOrders, OrderItem } from './utils/orderHelpers';
-import type { RootStackParamList } from '../screens/Profile/ProfileScreen';
+import type { RootStackParamList } from '../navigation/types';
 
 interface OrdersSectionProps {
   navigation: NativeStackNavigationProp<RootStackParamList>;

@@ -18,6 +18,6 @@ export const HOME_LAYOUTS = {
     },
   };
   
-  // 👇 CHANGE THIS LINE TO SWITCH DESIGN
+  //  CHANGE THIS LINE TO SWITCH DESIGN
   export const HOME_LAYOUT = HOME_LAYOUTS.grid3;
   

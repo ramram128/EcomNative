@@ -218,4 +218,205 @@ export const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#555',
   },
+
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f1f1',
+  },
+  // headerTitle: { fontSize: 17, fontWeight: '800' },
+
+  list: { padding: 16 },
+
+  card: {
+    padding: 16,
+    borderRadius: 14,
+    backgroundColor: '#f7f7f7',
+    marginBottom: 12,
+  },
+  orderId: { fontWeight: '800', fontSize: 15 },
+  amount: { fontSize: 14, marginTop: 4 },
+  status: {
+    marginTop: 6,
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#555',
+  },
+
+  // safe: {
+  //   flex: 1,
+  //   backgroundColor: '#fff',
+  // },
+
+  // header: {
+  //   paddingHorizontal: 16,
+  //   paddingVertical: 10,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   justifyContent: 'space-between',
+  //   borderBottomWidth: 1,
+  //   borderBottomColor: '#f1f1f1',
+  // },
+  // backBtn: {
+  //   width: 40,
+  //   height: 40,
+  //   borderRadius: 20,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // headerTitle: {
+  //   fontSize: 18,
+  //   fontWeight: '800',
+  //   color: '#111',
+  // },
+  saveBtn: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 10,
+    backgroundColor: '#111',
+  },
+  saveText: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '800',
+  },
+
+  // scroll: {
+  //   paddingBottom: 20,
+  // },
+
+  avatarSection: {
+    alignItems: 'center',
+    marginTop: 18,
+    marginBottom: 8,
+  },
+  // avatarWrap: {
+  //   width: 92,
+  //   height: 92,
+  //   borderRadius: 46,
+  //   backgroundColor: '#fff',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   elevation: 4,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.12,
+  //   shadowRadius: 10,
+  //   shadowOffset: { width: 0, height: 6 },
+  // },
+  // avatar: {
+  //   width: 84,
+  //   height: 84,
+  //   borderRadius: 42,
+  // },
+  // cameraBtn: {
+  //   position: 'absolute',
+  //   right: 0,
+  //   bottom: 0,
+  //   width: 28,
+  //   height: 28,
+  //   borderRadius: 14,
+  //   backgroundColor: '#fff',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   elevation: 3,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.14,
+  //   shadowRadius: 6,
+  //   shadowOffset: { width: 0, height: 3 },
+  // },
+  helperText: {
+    marginTop: 8,
+    fontSize: 12,
+    color: '#666',
+    fontWeight: '600',
+  },
+
+  // card: {
+  //   marginHorizontal: 16,
+  //   marginTop: 10,
+  //   borderRadius: 16,
+  //   backgroundColor: '#fff',
+  //   elevation: 2,
+  //   shadowColor: '#000',
+  //   shadowOpacity: 0.06,
+  //   shadowRadius: 10,
+  //   shadowOffset: { width: 0, height: 6 },
+  //   padding: 14,
+  // },
+
+  field: {
+    marginBottom: 12,
+  },
+  label: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#444',
+    marginBottom: 6,
+  },
+  input: {
+    height: 48,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#e9e9e9',
+    paddingHorizontal: 12,
+    backgroundColor: '#fafafa',
+    color: '#111',
+    fontWeight: '700',
+  },
+
+  bigSaveBtn: {
+    marginTop: 12,
+    height: 50,
+    borderRadius: 14,
+    backgroundColor: '#d4145a',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
+  bigSaveText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '900',
+  },
+  deleteBtn: {
+    backgroundColor: '#dc3545',
+    marginTop: 16,
+  },
+  deleteText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '900',
+  },
+
+  // safe: { flex: 1, backgroundColor: '#fff' },
+  // header: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   padding: 16,
+  //   borderBottomWidth: 1,
+  //   borderBottomColor: '#f1f1f1',
+  //   justifyContent: 'space-between',
+  // },
+  // headerTitle: { fontSize: 18, fontWeight: '800', color: '#111' },
+
+  container: { padding: 16 },
+  title: { fontSize: 20, fontWeight: '800', marginBottom: 6 },
+  desc: { fontSize: 14, color: '#666', marginBottom: 20 },
+
+  // card: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   padding: 16,
+  //   borderRadius: 14,
+  //   backgroundColor: '#f7f7f7',
+  //   marginBottom: 12,
+  //   gap: 12,
+  // },
+  cardText: { fontSize: 15, fontWeight: '700', color: '#111' },
+
+
 });
