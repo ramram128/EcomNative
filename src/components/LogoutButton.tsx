@@ -5,13 +5,15 @@ import { styles } from '../styles/profileScreen.styles';
 
 interface LogoutButtonProps {
   onPress: () => void;
+  label?: string;
+  iconName?: string;
 }
 
-const LogoutButton: React.FC<LogoutButtonProps> = ({ onPress }) => {
+const LogoutButton: React.FC<LogoutButtonProps> = ({ onPress, label = 'Logout', iconName = 'log-out-outline' }) => {
   return (
     <TouchableOpacity style={styles.logoutBtn} onPress={onPress} activeOpacity={0.85}>
-      <Ionicons name="log-out-outline" size={18} color="#555" />
-      <Text style={styles.logoutText}>Logout</Text>
+      <Ionicons name={iconName as any} size={18} color="#555" />
+      <Text style={styles.logoutText}>{label}</Text>
     </TouchableOpacity>
   );
 };

@@ -1,9 +1,16 @@
-import { ACTIVE_LAYOUT, LayoutType } from '../../constants/theme';
+// ../../layouts/profilescreen.ts
+import { ACTIVE_LAYOUT } from '../../constants/theme';
 import ProfileScreenModern from './ProfileScreenModern';
 
-type HomeLayoutProps = any;
+export interface ProfileLayoutProps {
+  user: { name: string; role: string; avatar: string };
+  isAuthenticated: boolean;
+  menu: any[];
+  onBack?: () => void;
+  onLogin?: () => void;
+}
 
-const ProfileMap: Record<LayoutType, React.FC<HomeLayoutProps>> = {
+const ProfileMap: Record<string, React.FC<ProfileLayoutProps>> = {
   crystal: ProfileScreenModern,
   modern: ProfileScreenModern,
 };

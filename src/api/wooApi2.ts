@@ -53,6 +53,29 @@ export const CustomerService = {
     return res.data;
   },
 
+  login: async (credentials: { email: string; password: string }) => {
+    // WooCommerce doesn't have a direct login endpoint for customers
+    // We'll need to use a custom endpoint or JWT authentication
+    // For now, we'll search for the customer by email and verify password
+    // This is not secure and should be replaced with proper authentication
+    try {
+      // This is a placeholder - in real implementation, you'd have a proper auth endpoint
+      const customers = await api.get('/customers', {
+        params: { email: credentials.email, per_page: 1 }
+      });
+      
+      if (customers.data && customers.data.length > 0) {
+        const customer = customers.data[0];
+        // Note: Password verification should be done server-side
+        // This is just for demo purposes
+        return customer;
+      }
+      throw new Error('Invalid credentials');
+    } catch {
+      throw new Error('Login failed');
+    }
+  },
+
   getCustomer: async (id: number) => {
     const res = await api.get(`/customers/${id}`);
     return res.data;
@@ -65,6 +88,23 @@ export const CustomerService = {
 
   deleteCustomer: async (id: number) => {
     const res = await api.delete(`/customers/${id}`);
+    return res.data;
+  },
+};
+
+export const OrderService = {
+  getUserOrders: async (customerId: number, status?: string) => {
+    const params: any = {
+      customer: customerId,
+      per_page: 20,
+    };
+    
+    // Only add status if it's not 'all' or 'wishlist'
+    if (status && status !== 'wishlist' && status !== 'support') {
+      params.status = status;
+    }
+
+    const res = await api.get('/orders', { params });
     return res.data;
   },
 };

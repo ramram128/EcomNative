@@ -1,92 +1,102 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '../../navigation/types';
+import { useShop } from '../../store/shopStore';
+import { CustomerService } from '../../api/wooApi2';
+import { SelectedShippingAddressLayout } from '../../layouts';
+import type { ShippingAddressData } from '../../layouts/ShippingAddressScreen';
 
 const ShippingAddressScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { user } = useShop();
+  const [address, setAddress] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [formData, setFormData] = useState<ShippingAddressData>({
+    first_name: '',
+    last_name: '',
+    address_1: '',
+    address_2: '',
+    city: '',
+    state: '',
+    postcode: '',
+    country: '',
+  });
 
-  // Demo address
-  const address = {
-    name: 'Roan Atkinson',
-    phone: '+91 98765 43210',
-    line1: '12, MG Road',
-    city: 'Bangalore',
-    state: 'Karnataka',
-    pincode: '560001',
+  const fetchAddress = useCallback(async () => {
+    if (!user?.id) return;
+    try {
+      const data = await CustomerService.getCustomer(user.id);
+      // WooCommerce returns 'shipping' and 'billing' objects
+      setAddress(data.shipping);
+    } catch (error) {
+      console.error('Failed to fetch address:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [user?.id]);
+
+  useEffect(() => {
+    fetchAddress();
+  }, [fetchAddress]);
+
+  const handleEdit = () => {
+    setFormData({
+      first_name: address?.first_name || '',
+      last_name: address?.last_name || '',
+      address_1: address?.address_1 || '',
+      address_2: address?.address_2 || '',
+      city: address?.city || '',
+      state: address?.state || '',
+      postcode: address?.postcode || '',
+      country: address?.country || '',
+    });
+    setIsEditing(true);
+  };
+
+  const handleSave = async () => {
+    if (!user?.id) return;
+    setSaving(true);
+    try {
+      await CustomerService.updateCustomer(user.id, { shipping: formData });
+      setAddress(formData);
+      setIsEditing(false);
+      Alert.alert('Success', 'Address updated successfully');
+    } catch (error) {
+      console.error('Failed to update address:', error);
+      Alert.alert('Error', 'Failed to update address');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  const handleFormDataChange = (data: ShippingAddressData) => {
+    setFormData(data);
   };
 
   return (
-    <SafeAreaView style={styles.safe } edges={['left', 'right']}>
-      <View style={styles.header}>
-        <Ionicons
-          name="chevron-back"
-          size={22}
-          color="#111"
-          onPress={() => navigation.goBack()}
-        />
-        <Text style={styles.headerTitle}>Shipping Address</Text>
-        <View style={{ width: 22 }} />
-      </View>
-
-      <View style={styles.container}>
-        <View style={styles.card}>
-          <Text style={styles.name}>{address.name}</Text>
-          <Text style={styles.text}>{address.phone}</Text>
-          <Text style={styles.text}>{address.line1}</Text>
-          <Text style={styles.text}>
-            {address.city}, {address.state} – {address.pincode}
-          </Text>
-        </View>
-
-        <TouchableOpacity style={styles.addBtn}>
-          <Ionicons name="add-circle-outline" size={18} color="#fff" />
-          <Text style={styles.addText}>Add / Edit Address</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+    <SelectedShippingAddressLayout
+      address={address}
+      loading={loading}
+      isAuthenticated={!!user?.id}
+      isEditing={isEditing}
+      saving={saving}
+      formData={formData}
+      onFormDataChange={handleFormDataChange}
+      onEdit={handleEdit}
+      onSave={handleSave}
+      onCancel={handleCancel}
+      onBack={() => navigation.goBack()}
+      onLogin={() => navigation.navigate('Auth' as never)}
+    />
   );
 };
 
 export default ShippingAddressScreen;
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#fff' },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#f1f1f1',
-  },
-  headerTitle: { fontSize: 18, fontWeight: '800' },
-
-  container: { padding: 16 },
-
-  card: {
-    padding: 16,
-    borderRadius: 14,
-    backgroundColor: '#f7f7f7',
-  },
-  name: { fontSize: 15, fontWeight: '800' },
-  text: { fontSize: 14, marginTop: 4, color: '#444' },
-
-  addBtn: {
-    marginTop: 20,
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: '#d4145a',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 8,
-  },
-  addText: { color: '#fff', fontWeight: '800', fontSize: 14 },
-});

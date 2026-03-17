@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
-import { EditProfileLayoutModern } from '../../layouts/EditProfileScreen/EditProfileLayout';
+import { SelectedEditProfileLayout } from '../../layouts/EditProfileScreen';
 import { useShop } from '../../store/shopStore';
 import { CustomerService } from '../../api/wooApi2';
 
@@ -120,7 +120,7 @@ export default function EditProfileScreen() {
 
   // 3. Render the Layout
   return (
-    <EditProfileLayoutModern
+    <SelectedEditProfileLayout
       formData={formData}
       setFormData={setFormData}
       onSave={handleSave}

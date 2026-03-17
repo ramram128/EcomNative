@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StatusBar, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ProfileField } from '../../components/EditProfile/ProfileField';
+import { InputField } from '../../components/InputField';
 import { styles } from '../../styles/profileScreen.styles';
 
 interface EditProfileLayoutProps {
@@ -49,18 +49,23 @@ export const EditProfileLayoutModern: React.FC<EditProfileLayoutProps> = ({
         </View>
 
         <View style={styles.card}>
-          <ProfileField 
-            label="Full Name" 
-            value={formData.name} 
-            onChangeText={(t) => setFormData({...formData, name: t})} 
+          <InputField
+            label="Full Name"
+            value={formData.name}
+            onChangeText={(t) => setFormData({...formData, name: t})}
           />
-          <ProfileField 
-            label="Email" 
-            value={formData.email} 
+          <InputField
+            label="Email"
+            value={formData.email}
             keyboardType="email-address"
-            onChangeText={(t) => setFormData({...formData, email: t})} 
+            onChangeText={(t) => setFormData({...formData, email: t})}
           />
-          {/* Add other fields similarly */}
+          <InputField
+            label="Phone"
+            value={formData.phone}
+            keyboardType="phone-pad"
+            onChangeText={(t) => setFormData({...formData, phone: t})}
+          />
           
           <TouchableOpacity style={styles.bigSaveBtn} onPress={onSave} disabled={loading}>
             <Text style={styles.bigSaveText}>

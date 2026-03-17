@@ -1,55 +1,35 @@
 import React from 'react';
-import {
-  View,
-  ScrollView,
-  StatusBar,
-} from 'react-native';
+import { View, ScrollView, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../../navigation/types';
 import { styles } from '../../styles/profileScreen.styles';
+
+// Import the shared interface
+import { ProfileLayoutProps } from '../../layouts/profilescreen'; 
+
 import ProfileHeader from '../../components/ProfileHeader';
 import OrdersSection from '../../components/OrdersSection';
 import MenuSection from '../../components/MenuSection';
 import LogoutButton from '../../components/LogoutButton';
+import { useShop } from '../../store/shopStore'; // To handle logout logic
 
-type Nav = NativeStackNavigationProp<RootStackParamList>;
-
-interface MenuItem {
-  key: string;
-  label: string;
-  icon: string;
-  onPress: () => void;
-}
-
-const ProfileScreenModern = () => {
-  const navigation = useNavigation<Nav>();
-
-  const user = {
-    name: 'Roan Atkinson',
-    role: 'Entrepreneur',
-    avatar:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
-  };
-
-  const menu: MenuItem[] = [
-    {
-      key: 'edit',
-      label: 'Edit Profile',
-      icon: 'person-outline',
-      onPress: () => navigation.navigate('EditProfile'),
-    },
-    {
-      key: 'address',
-      label: 'Shipping Address',
-      icon: 'location-outline',
-      onPress: () => navigation.navigate('ShippingAddress'),
-    },
-  ];
+const ProfileScreenModern: React.FC<ProfileLayoutProps> = ({ 
+  user, 
+  isAuthenticated,
+  menu, 
+  onBack,
+  onLogin,
+}) => {
+  const navigation = useNavigation<any>();
+  const { setAuth } = useShop();
 
   const handleLogout = () => {
-    // Add logout logic here
+    setAuth(false);
+    navigation.navigate('Auth' as never);
+  };
+
+  const handleLogin = () => {
+    navigation.navigate('Auth' as never);
   };
 
   return (
@@ -60,16 +40,21 @@ const ProfileScreenModern = () => {
         showsVerticalScrollIndicator={false}
       >
         <ProfileHeader
-          user={user}
-          onBackPress={() => navigation.goBack()}
-          onCameraPress={() => {}}
+          user={user} // Now uses data from ProfileScreen.tsx
+          onBackPress={onBack || (() => navigation.goBack())}
+          onCameraPress={() => {/* Add logic to change avatar if needed */}}
         />
 
+        {/* Pass the navigation to the OrdersSection */}
         <OrdersSection navigation={navigation} />
 
         <MenuSection menu={menu} />
 
-        <LogoutButton onPress={handleLogout} />
+        {isAuthenticated ? (
+          <LogoutButton onPress={handleLogout} />
+        ) : (
+          <LogoutButton onPress={onLogin ?? handleLogin} label="Login" iconName="log-in-outline" />
+        )}
 
         <View style={{ height: 18 }} />
       </ScrollView>
@@ -78,5 +63,3 @@ const ProfileScreenModern = () => {
 };
 
 export default ProfileScreenModern;
-
-

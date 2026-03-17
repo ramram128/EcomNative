@@ -1,57 +1,59 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { styles } from '../../styles/profileScreen.styles';
+import { SelectedOrdersLayout } from '../../layouts/orders';
+import { OrderService } from '../../api/wooApi2';
+import { useShop } from '../../store/shopStore';
 
 const OrdersScreen = () => {
   const navigation = useNavigation();
   const route = useRoute<any>();
+  const { user, isAuthenticated } = useShop();
+
+  const [orders, setOrders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const status = route.params?.status ?? 'pending';
 
-  // Demo orders (replace with API)
-  const orders = [
-    { id: 'ORD001', amount: '₹1,200', status },
-    { id: 'ORD002', amount: '₹899', status },
-  ];
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!isAuthenticated || !user?.id) {
+        setOrders([]);
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const data = await OrderService.getUserOrders(user.id, status);
+        setOrders(data);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [isAuthenticated, user?.id, status]);
+
+  const handleBack = () => {
+    navigation.goBack();
+  };
+
+  const handleLogin = () => {
+    navigation.navigate('Auth' as never);
+  };
 
   return (
-    <SafeAreaView style={styles.safe} edges={['left', 'right']}>
-      <View style={styles.header}>
-        <Ionicons
-          name="chevron-back"
-          size={22}
-          color="#111"
-          onPress={() => navigation.goBack()}
-        />
-        <Text style={styles.headerTitle}>
-          Orders – {status.toUpperCase()}
-        </Text>
-        <View style={{ width: 22 }} />
-      </View>
-
-      <FlatList
-        data={orders}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.orderId}>{item.id}</Text>
-            <Text style={styles.amount}>{item.amount}</Text>
-            <Text style={styles.status}>{item.status}</Text>
-          </View>
-        )}
-      />
-    </SafeAreaView>
+    <SelectedOrdersLayout
+      orders={orders}
+      loading={loading}
+      isAuthenticated={isAuthenticated}
+      status={status}
+      onBack={handleBack}
+      onLogin={handleLogin}
+    />
   );
 };
 
 export default OrdersScreen;
-

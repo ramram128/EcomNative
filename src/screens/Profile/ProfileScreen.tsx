@@ -1,4 +1,5 @@
 import React, { useMemo, useEffect, useState, useCallback } from 'react';
+import { Alert } from 'react-native';
 import { useNavigation, type NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -8,13 +9,6 @@ import { useShop } from '../../store/shopStore';
 import { CustomerService } from '../../api/wooApi2';
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
-
-export type OrderItem = {
-  key: 'pending' | 'delivered' | 'processing' | 'cancelled' | 'wishlist' | 'support';
-  label: string;
-  icon: string;
-  onPress: () => void;
-};
 
 export type MenuItem = {
   key: 'edit' | 'address';
@@ -52,11 +46,22 @@ const ProfileScreen = () => {
   useEffect(() => {
     if (isAuthenticated && user?.id) {
       fetchUserData();
+    } else {
+      // Clear stored user data when logged out
+      setUserData(null);
     }
   }, [isAuthenticated, user?.id, fetchUserData]);
 
   // Use real user data or fallback
   const userInfo = useMemo(() => {
+    if (loading) {
+      return {
+        name: 'Loading...',
+        role: 'Please wait',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
+      };
+    }
+    
     if (userData) {
       return {
         name: `${userData.first_name || ''} ${userData.last_name || ''}`.trim() || 'User',
@@ -64,55 +69,22 @@ const ProfileScreen = () => {
         avatar: userData.avatar_url || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
       };
     }
+    
+    if (!isAuthenticated) {
+      return {
+        name: 'Guest User',
+        role: 'Please login to view profile',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
+      };
+    }
+    
     return {
-      name: 'Guest User',
-      role: 'Please login',
+      name: 'User',
+      role: 'Loading profile...',
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80',
     };
-  }, [userData]);
+  }, [userData, loading, isAuthenticated]);
 
-  const orders: OrderItem[] = useMemo(
-    () => [
-      {
-        key: 'pending',
-        label: 'Pending Payment',
-        icon: 'wallet-outline',
-        onPress: () => navigation.navigate('Orders', { status: 'pending' }),
-      },
-      {
-        key: 'delivered',
-        label: 'Delivered',
-        icon: 'cube-outline',
-        onPress: () => navigation.navigate('Orders', { status: 'delivered' }),
-      },
-      {
-        key: 'processing',
-        label: 'Processing',
-        icon: 'sync-outline',
-        onPress: () => navigation.navigate('Orders', { status: 'processing' }),
-      },
-      {
-        key: 'cancelled',
-        label: 'Cancelled',
-        icon: 'close-circle-outline',
-        onPress: () => navigation.navigate('Orders', { status: 'cancelled' }),
-      },
-      {
-        key: 'wishlist',
-        label: 'Wishlist',
-        icon: 'heart-outline',
-        // Wishlist is a TAB. We go to Tabs -> Wishlist
-        onPress: () => navigation.navigate('Tabs', { screen: 'Wishlist' }),
-      },
-      {
-        key: 'support',
-        label: 'Customer Care',
-        icon: 'headset-outline',
-        onPress: () => navigation.navigate('CustomerCare'),
-      },
-    ],
-    [navigation]
-  );
 
   const menu: MenuItem[] = useMemo(
     () => [
@@ -120,7 +92,16 @@ const ProfileScreen = () => {
         key: 'edit',
         label: 'Edit Profile',
         icon: 'person-outline',
-        onPress: () => navigation.navigate('EditProfile'),
+        onPress: () => {
+          if (!isAuthenticated) {
+            Alert.alert('Login Required', 'Please login to edit your profile', [
+              { text: 'Cancel', style: 'cancel' },
+              { text: 'Login', onPress: () => navigation.navigate('Auth' as never) },
+            ]);
+            return;
+          }
+          navigation.navigate('EditProfile');
+        },
       },
       {
         key: 'address',
@@ -129,7 +110,7 @@ const ProfileScreen = () => {
         onPress: () => navigation.navigate('ShippingAddress'),
       },
     ],
-    [navigation]
+    [navigation, isAuthenticated]
   );
 
   const handleBack = (e: keyof TabParamList) => {
@@ -145,9 +126,10 @@ const ProfileScreen = () => {
   return (
     <SelectedProfileScreenLayout
       user={userInfo}
-      orders={orders}
+      isAuthenticated={isAuthenticated}
       menu={menu}
       onBack={() => handleBack('Wishlist')}
+      onLogin={() => navigation.navigate('Auth' as never)}
     />
   );
 };

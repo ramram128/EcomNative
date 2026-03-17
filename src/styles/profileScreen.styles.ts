@@ -418,5 +418,83 @@ export const styles = StyleSheet.create({
   // },
   cardText: { fontSize: 15, fontWeight: '700', color: '#111' },
 
+  // ProfileScreenModern specific styles
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backButtonText: {
+    fontSize: 18,
+    color: '#111',
+    fontWeight: '600',
+  },
+  userInfoContainer: {
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+  },
+  userDetails: {
+    alignItems: 'center',
+  },
+  userName: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#111',
+    marginBottom: 4,
+  },
+  userRole: {
+    fontSize: 14,
+    color: '#666',
+    fontWeight: '600',
+  },
+  gridItemIcon: {
+    fontSize: 24,
+    color: '#666',
+    marginBottom: 8,
+  },
+  gridItemLabel: {
+    fontSize: 12,
+    textAlign: 'center',
+    color: '#444',
+    fontWeight: '600',
+  },
+  menuList: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 6 },
+    overflow: 'hidden',
+  },
+  menuItem: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f1f1f1',
+  },
+  menuItemIcon: {
+    fontSize: 20,
+    color: '#666',
+    marginRight: 12,
+  },
+  menuItemLabel: {
+    flex: 1,
+    fontSize: 16,
+    color: '#111',
+    fontWeight: '600',
+  },
+  menuItemArrow: {
+    fontSize: 16,
+    color: '#999',
+    fontWeight: '600',
+  },
 
 });
