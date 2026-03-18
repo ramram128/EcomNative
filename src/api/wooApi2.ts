@@ -86,8 +86,12 @@ export const CustomerService = {
     return res.data;
   },
 
-  deleteCustomer: async (id: number) => {
-    const res = await api.delete(`/customers/${id}`);
+ deleteCustomer: async (id: number) => {
+    const res = await api.delete(`/customers/${id}`, {
+      params: {
+        force: true, // This is the crucial line
+      },
+    });
     return res.data;
   },
 };

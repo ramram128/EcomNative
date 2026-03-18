@@ -5,7 +5,7 @@ import { HomeLayoutProps } from './types';
 
 const HomeMap: Record<LayoutType, React.FC<HomeLayoutProps>> = {
   crystal: HomeCrystal,
-  modern: HomeModern,
+  modern: HomeCrystal,
 };
 
 export const SelectedHomeLayout = HomeMap[ACTIVE_LAYOUT];

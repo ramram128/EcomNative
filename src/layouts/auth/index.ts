@@ -1,10 +1,13 @@
 import AuthLayoutModern from './AuthLayoutModern';
+import AuthLayoutGlass from './AuthLayoutGlass';
+import AuthLayoutCrystal from './AuthLayoutCrystal';
 
-import { ACTIVE_LAYOUT } from '../../constants/theme';
+const ACTIVE_LAYOUT = 'modern';
 
 const AuthLayoutMap = {
-  crystal: AuthLayoutModern,
-  modern: AuthLayoutModern,
+  crystal: AuthLayoutCrystal,
+  modern: AuthLayoutGlass,
+  glass: AuthLayoutGlass,
 };
 
 export const SelectedAuthLayout = AuthLayoutMap[ACTIVE_LAYOUT];

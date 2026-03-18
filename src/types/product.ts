@@ -17,6 +17,11 @@ export interface ProductAttribute {
 export interface Product {
   id: number;
   name: string;
+    tags: {
+    id: number;
+    name: string;
+    slug: string;
+  }[];
   type: 'simple' | 'variable';
   price: string;
   regular_price: string;

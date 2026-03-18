@@ -12,12 +12,14 @@ import { COLORS } from '../../constants/theme';
 export interface AuthLayoutProps {
   isSignup: boolean;
   email: string;
+  username: string;
   password: string;
   confirmPassword: string;
   firstName: string;
   lastName: string;
   loading: boolean;
   onEmailChange: (email: string) => void;
+  onUsernameChange: (text: string) => void;
   onPasswordChange: (password: string) => void;
   onConfirmPasswordChange: (confirmPassword: string) => void;
   onFirstNameChange: (firstName: string) => void;

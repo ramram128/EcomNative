@@ -496,5 +496,6 @@ export const styles = StyleSheet.create({
     color: '#999',
     fontWeight: '600',
   },
+  
 
 });

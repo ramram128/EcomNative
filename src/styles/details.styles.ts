@@ -80,7 +80,7 @@ export const styles = StyleSheet.create({
     borderWidth: isCrystal ? 1 : 0,
     borderColor: 'rgba(255,255,255,0.2)',
     backgroundColor: isCrystal ? 'transparent' : '#FFF',
-    padding: 24,
+    padding: 8,
   },
 
   // TEXT STYLES
