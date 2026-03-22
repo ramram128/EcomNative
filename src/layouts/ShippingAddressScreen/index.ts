@@ -5,6 +5,7 @@ import { ACTIVE_LAYOUT } from '../../constants/theme';
 const ShippingAddressLayoutMap = {
   crystal: ShippingAddressLayoutModern,
   modern: ShippingAddressLayoutModern,
+  glass: ShippingAddressLayoutModern,
 };
 
 export const SelectedShippingAddressLayout = ShippingAddressLayoutMap[ACTIVE_LAYOUT];

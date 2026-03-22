@@ -45,8 +45,8 @@ const AuthLayoutGlass: React.FC<AuthLayoutProps> = ({
       <View style={[styles.blurCircle, styles.bottomCircle, { backgroundColor: COLORS.primary + '08' }]} />
 
       <SafeAreaView style={{ flex: 1 }}>
-        <KeyboardAvoidingView 
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{ flex: 1 }}
         >
           {/* Header Bar */}
@@ -57,18 +57,18 @@ const AuthLayoutGlass: React.FC<AuthLayoutProps> = ({
             </TouchableOpacity>
           </View>
 
-          <ScrollView 
-            contentContainerStyle={styles.scrollContent} 
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
           >
             {/* Hero Section */}
             <View style={styles.hero}>
-              <Text style={[styles.title, { color: COLORS.text || '#39264c' }]}>
+              <Text style={[styles.title, { color: COLORS.blackText || '#39264c' }]}>
                 {isSignup ? 'Join with Us' : 'Welcome back'}
               </Text>
               <Text style={styles.subtitle}>
-                {isSignup 
-                  ? 'Create an account to start your curated experience.' 
+                {isSignup
+                  ? 'Create an account to start your curated experience.'
                   : 'Enter your details to continue your curated experience.'}
               </Text>
             </View>
@@ -124,7 +124,7 @@ const AuthLayoutGlass: React.FC<AuthLayoutProps> = ({
                     secureTextEntry={!showPassword}
                     placeholderTextColor="#846e99"
                   />
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     onPress={() => setShowPassword(!showPassword)}
                     style={styles.eyeIcon}
                   >
@@ -156,8 +156,8 @@ const AuthLayoutGlass: React.FC<AuthLayoutProps> = ({
               )}
 
               {/* Action Button */}
-              <TouchableOpacity 
-                onPress={isSignup ? onSignup : onLogin} 
+              <TouchableOpacity
+                onPress={isSignup ? onSignup : onLogin}
                 disabled={loading}
                 activeOpacity={0.8}
               >
@@ -207,7 +207,7 @@ const AuthLayoutGlass: React.FC<AuthLayoutProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fdf3ff', // Clean editorial background
+    backgroundColor: COLORS.mainBackground,
   },
   blurCircle: {
     position: 'absolute',
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 17,
-    color: '#68537c',
+    color: COLORS.blackText,
     lineHeight: 24,
   },
   form: {
@@ -273,18 +273,18 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#68537c',
+    color: COLORS.blackText,
     letterSpacing: 1,
     textTransform: 'uppercase',
     marginLeft: 4,
   },
   input: {
     height: 56,
-    backgroundColor: '#f9ecff',
+    backgroundColor: COLORS.background + '60',
     borderRadius: 16,
     paddingHorizontal: 20,
     fontSize: 16,
-    color: '#39264c',
+    color: COLORS.text,
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 10,
     fontWeight: '700',
-    color: '#846e99',
+    color: COLORS.text + '80',
     letterSpacing: 1.5,
   },
   toggleContainer: {
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
   },
   toggleText: {
     fontSize: 14,
-    color: '#68537c',
+    color: COLORS.text,
   },
   toggleAction: {
     fontSize: 14,

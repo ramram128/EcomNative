@@ -81,6 +81,8 @@ const TAB_ICONS: Record<keyof TabParamList, string> = {
   Profile: 'person-outline',
 };
 
+import { SelectedBottomTabBar } from '../layouts/TabBars';
+
 /** -----------------------
  *  Tabs
  *  ----------------------*/
@@ -88,24 +90,10 @@ const TAB_ICONS: Record<keyof TabParamList, string> = {
 const Tabs = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      tabBar={props => <SelectedBottomTabBar {...props} />}
+      screenOptions={{
         headerShown: false,
-
-        tabBarActiveTintColor: COLORS.primary,
-        tabBarInactiveTintColor: '#999',
-        tabBarShowLabel: true,
-
-        tabBarStyle: {
-          height: 60,
-          paddingBottom: 6,
-          paddingTop: 6,
-        },
-
-        tabBarIcon: ({ color, size }) => {
-          const iconName = TAB_ICONS[route.name];
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-      })}
+      }}
     >
       <Tab.Screen name="Shop" component={HomeStack} />
       <Tab.Screen name="Search" component={SearchScreen} />

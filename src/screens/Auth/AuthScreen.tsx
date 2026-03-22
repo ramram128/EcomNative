@@ -72,7 +72,7 @@ const AuthScreen = () => {
         first_name: customer.first_name,
         last_name: customer.last_name,
       });
-      Alert.alert('Success', 'Logged in successfully');
+      // Alert.alert('Success', 'Logged in successfully');
       navigation.navigate('Tabs' as never);
     } catch (error: any) {
       const message = error.response?.data?.message || error.message || 'Login failed';

@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useMemo, useReducer } from 'react';
-import type { Product } from '../types/product';
+import type { Product, Variation } from '../types/product';
 
 export type CartItem = {
   product: Product;
   qty: number;
+  variation?: Variation;
 };
 
 type State = {
@@ -16,9 +17,9 @@ type State = {
 type Action =
   | { type: 'TOGGLE_WISHLIST'; product: Product }
   | { type: 'REMOVE_WISHLIST'; productId: number }
-  | { type: 'ADD_TO_CART'; product: Product; qty?: number }
-  | { type: 'REMOVE_FROM_CART'; productId: number }
-  | { type: 'SET_QTY'; productId: number; qty: number }
+  | { type: 'ADD_TO_CART'; product: Product; qty?: number; variation?: Variation }
+  | { type: 'REMOVE_FROM_CART'; productId: number; variationId?: number }
+  | { type: 'SET_QTY'; productId: number; qty: number; variationId?: number }
   | { type: 'CLEAR_CART' }
   | { type: 'SET_AUTH'; isAuthenticated: boolean; user?: any };
 
@@ -57,21 +58,32 @@ function reducer(state: State, action: Action): State {
 
     case 'ADD_TO_CART': {
       const qty = action.qty ?? 1;
-      const idx = state.cart.findIndex((c) => c.product.id === action.product.id);
+      const idx = state.cart.findIndex(
+        (c) => c.product.id === action.product.id && c.variation?.id === action.variation?.id
+      );
       if (idx >= 0) {
         const updated = [...state.cart];
         updated[idx] = { ...updated[idx], qty: updated[idx].qty + qty };
         return { ...state, cart: updated };
       }
-      return { ...state, cart: [{ product: action.product, qty }, ...state.cart] };
+      return { ...state, cart: [{ product: action.product, qty, variation: action.variation }, ...state.cart] };
     }
 
     case 'REMOVE_FROM_CART':
-      return { ...state, cart: state.cart.filter((c) => c.product.id !== action.productId) };
+      return {
+        ...state,
+        cart: state.cart.filter(
+          (c) => !(c.product.id === action.productId && c.variation?.id === action.variationId)
+        ),
+      };
 
     case 'SET_QTY': {
       const updated = state.cart
-        .map((c) => (c.product.id === action.productId ? { ...c, qty: action.qty } : c))
+        .map((c) =>
+          c.product.id === action.productId && c.variation?.id === action.variationId
+            ? { ...c, qty: action.qty }
+            : c
+        )
         .filter((c) => c.qty > 0);
       return { ...state, cart: updated };
     }
@@ -95,16 +107,17 @@ type ShopContextValue = {
   toggleWishlist: (product: Product) => void;
   removeWishlist: (productId: number) => void;
 
-  addToCart: (product: Product, qty?: number) => void;
-  removeFromCart: (productId: number) => void;
-  setQty: (productId: number, qty: number) => void;
+  addToCart: (product: Product, qty?: number, variation?: Variation) => void;
+  removeFromCart: (productId: number, variationId?: number) => void;
+  setQty: (productId: number, qty: number, variationId?: number) => void;
   clearCart: () => void;
 
   cartCount: number;
   cartTotal: number;
   isAuthenticated: boolean;
   user: any;
-  setAuth: (isAuthenticated: boolean, user?: any) => void;};
+  setAuth: (isAuthenticated: boolean, user?: any) => void;
+};
 
 const ShopContext = createContext<ShopContextValue | null>(null);
 
@@ -123,9 +136,9 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
       toggleWishlist: (product) => dispatch({ type: 'TOGGLE_WISHLIST', product }),
       removeWishlist: (productId) => dispatch({ type: 'REMOVE_WISHLIST', productId }),
 
-      addToCart: (product, qty) => dispatch({ type: 'ADD_TO_CART', product, qty }),
-      removeFromCart: (productId) => dispatch({ type: 'REMOVE_FROM_CART', productId }),
-      setQty: (productId, qty) => dispatch({ type: 'SET_QTY', productId, qty }),
+      addToCart: (product, qty, variation) => dispatch({ type: 'ADD_TO_CART', product, qty, variation }),
+      removeFromCart: (productId, variationId) => dispatch({ type: 'REMOVE_FROM_CART', productId, variationId }),
+      setQty: (productId, qty, variationId) => dispatch({ type: 'SET_QTY', productId, qty, variationId }),
       clearCart: () => dispatch({ type: 'CLEAR_CART' }),
 
       cartCount,

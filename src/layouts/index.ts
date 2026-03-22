@@ -1,5 +1,6 @@
 import { ACTIVE_LAYOUT } from '../constants/theme';
 import HomeCrystal from './home/HomeCrystal';
+import HomeGlass from './home/HomeGlass';
 import HomeModern from './home/HomeModern';
 // ✅ Keep these imports as they are
 import ProductDetailsLayoutCrystal from './productDetails/ProductDetailsLayoutCrystal';
@@ -13,24 +14,28 @@ import { SelectedAuthLayout } from './auth';
 // Mapping for Home Screen
 const HomeMap = {
   crystal: HomeCrystal,
-  modern: HomeCrystal,
+  modern: HomeGlass,
+  glass: HomeGlass,
 };
 
 // Mapping for Details Screen
 const DetailsMap = {
-  
-  crystal: ProductDetailsLayoutCrystal, 
+
+  crystal: ProductDetailsLayoutCrystal,
   modern: ProductDetailsLayoutModern,
+  glass: ProductDetailsLayoutCrystal,
 };
 
 const ProfileScreenLayoutMap = {
-  crystal: ProfileScreenModern, 
+  crystal: ProfileScreenModern,
   modern: ProfileScreenModern,
+  glass: ProfileScreenModern,
 }
 
 const EditProfileLayoutMap = {
-  crystal: EditProfileLayoutModern, 
+  crystal: EditProfileLayoutModern,
   modern: EditProfileLayoutModern,
+  glass: EditProfileLayoutModern,
 }
 
 export const SelectedHomeLayout = HomeMap[ACTIVE_LAYOUT];
