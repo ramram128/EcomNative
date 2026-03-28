@@ -199,3 +199,45 @@ export const OrderService = {
     return res.data;
   },
 };
+
+export const CartService = {
+  getCart: async (userId: number) => {
+    const res = await axios.get(`https://infinitroot.com/wp-json/mobile/v1/cart?user_id=${userId}`);
+    return res.data;
+  },
+
+  updateCartItem: async (data: {
+    user_id: number;
+    product_id: number;
+    variation_id?: number;
+    quantity: number;
+    cart_item_key?: string; // Used to identify the exact cart item to UPDATE instead of ADD
+  }) => {
+    console.log('[DEBUG] updateCartItem payload:', data);
+    const res = await axios.post(`https://infinitroot.com/wp-json/mobile/v1/cart/item`, data);
+    return res.data;
+  },
+
+  removeCartItem: async (userId: number, productId: number) => {
+    // The explicit requirements from the user's Postman screenshot are:
+    // DELETE https://infinitroot.com/wp-json/mobile/v1/cart/item
+    // Body (raw JSON): { "user_id": 4, "product_id": 1216 }
+    const payload = { 
+      user_id: userId, 
+      product_id: Number(productId),
+    };
+
+    console.log('[DEBUG] removeCartItem payload:', payload);
+
+    const res = await axios.delete(`https://infinitroot.com/wp-json/mobile/v1/cart/item`, {
+      data: payload,
+      headers: { 'Content-Type': 'application/json' }
+    });
+    return res.data;
+  },
+
+  clearCart: async (userId: number) => {
+    const res = await axios.post(`https://infinitroot.com/wp-json/mobile/v1/cart/empty`, { user_id: userId });
+    return res.data;
+  },
+};

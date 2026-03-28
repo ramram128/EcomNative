@@ -8,7 +8,7 @@ import { TabBarModern } from './TabBarModern';
 const TabBarMap: Record<string, React.FC<BottomTabBarProps>> = {
     crystal: TabBarCrystal,
     glass: TabBarGlass,
-    modern: TabBarGlass,
+    modern: TabBarModern,
 };
 
 export const SelectedBottomTabBar = (props: BottomTabBarProps) => {

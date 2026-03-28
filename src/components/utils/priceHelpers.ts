@@ -53,3 +53,24 @@ export const getPriceDetails = (product: Product) => {
     isVariable: product.type === 'variable' // Added this flag for UI use
   };
 };
+export const getCartItemPriceDetails = (product: Product, variation?: Variation) => {
+  const reg = variation?.regular_price || product.regular_price;
+  const sale = variation?.sale_price || variation?.price || product.sale_price || product.price;
+
+  const regNum = toNumber(reg);
+  const saleNum = toNumber(sale);
+
+  const isDiscounted = !isNaN(regNum) && !isNaN(saleNum) && regNum > saleNum;
+
+  const percent = isDiscounted
+    ? Math.round(((regNum - saleNum) / regNum) * 100)
+    : 0;
+
+  return {
+    showBoth: isDiscounted,
+    discountPercent: percent,
+    inrRegular: formatINR(reg),
+    inrSale: formatINR(sale),
+    finalPrice: formatINR(sale || reg)
+  };
+};

@@ -10,6 +10,9 @@ import { EditProfileLayoutModern } from './EditProfileScreen/EditProfileLayout';
 import { SelectedShippingAddressLayout } from './ShippingAddressScreen';
 import { SelectedOrdersLayout } from './orders';
 import { SelectedAuthLayout } from './auth';
+import CartCrystal from './cart/CartCrystal';
+import CartGlass from './cart/CartGlass';
+import CartModern from './cart/CartModern';
 
 // Mapping for Home Screen
 const HomeMap = {
@@ -38,6 +41,12 @@ const EditProfileLayoutMap = {
   glass: EditProfileLayoutModern,
 }
 
+const CartMap = {
+  crystal: CartCrystal,
+  modern: CartModern,
+  glass: CartGlass,
+}
+
 export const SelectedHomeLayout = HomeMap[ACTIVE_LAYOUT];
 export const SelectedDetails = DetailsMap[ACTIVE_LAYOUT];
 export const SelectedProfileScreenLayout = ProfileScreenLayoutMap[ACTIVE_LAYOUT];
@@ -45,3 +54,4 @@ export const SelectedEditProfileLayout = EditProfileLayoutMap[ACTIVE_LAYOUT];
 export { SelectedShippingAddressLayout } from './ShippingAddressScreen';
 export { SelectedOrdersLayout } from './orders';
 export { SelectedAuthLayout } from './auth';
+export const SelectedCartLayout = CartMap[ACTIVE_LAYOUT];
