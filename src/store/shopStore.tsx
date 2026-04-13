@@ -15,6 +15,7 @@ type State = {
   isLoadingCart: boolean;
   isAuthenticated: boolean;
   user: any; // TODO: define user type
+  appliedCoupon: any | null;
 };
 
 type Action =
@@ -26,7 +27,8 @@ type Action =
   | { type: 'REMOVE_FROM_CART_LOCAL'; productId: number; variationId?: number }
   | { type: 'SET_QTY_LOCAL'; productId: number; qty: number; variationId?: number }
   | { type: 'CLEAR_CART_LOCAL' }
-  | { type: 'SET_AUTH'; isAuthenticated: boolean; user?: any };
+  | { type: 'SET_AUTH'; isAuthenticated: boolean; user?: any }
+  | { type: 'SET_COUPON'; coupon: any | null };
 
 const initialState: State = {
   wishlist: [],
@@ -34,6 +36,7 @@ const initialState: State = {
   isLoadingCart: false,
   isAuthenticated: false,
   user: null,
+  appliedCoupon: null,
 };
 
 const toNumber = (v: any) => {
@@ -105,6 +108,9 @@ function reducer(state: State, action: Action): State {
     case 'SET_AUTH':
       return { ...state, isAuthenticated: action.isAuthenticated, user: action.user };
 
+    case 'SET_COUPON':
+      return { ...state, appliedCoupon: action.coupon };
+
     default:
       return state;
   }
@@ -130,6 +136,11 @@ type ShopContextValue = {
   isAuthenticated: boolean;
   user: any;
   setAuth: (isAuthenticated: boolean, user?: any) => void;
+
+  appliedCoupon: any | null;
+  applyCoupon: (code: string) => Promise<boolean>;
+  removeCoupon: () => void;
+  createOrder: (paymentMethod: string, customerDetails: any) => Promise<any>;
 };
 
 const ShopContext = createContext<ShopContextValue | null>(null);
@@ -358,8 +369,60 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
       isAuthenticated: state.isAuthenticated,
       user: state.user,
       setAuth: (isAuthenticated, user) => dispatch({ type: 'SET_AUTH', isAuthenticated, user }),
+
+      appliedCoupon: state.appliedCoupon,
+      applyCoupon: async (code: string) => {
+        try {
+          const { CouponService } = require('../api/wooApi2');
+          const coupon = await CouponService.getCoupon(code);
+          if (coupon) {
+            dispatch({ type: 'SET_COUPON', coupon });
+            return true;
+          }
+          return false;
+        } catch (err) {
+          console.error('Apply coupon failed:', err);
+          return false;
+        }
+      },
+      removeCoupon: () => dispatch({ type: 'SET_COUPON', coupon: null }),
+
+      createOrder: async (paymentMethod: string, customerDetails: any) => {
+        try {
+          const { OrderService } = require('../api/wooApi2');
+          
+          const line_items = state.cart.map(item => ({
+            product_id: item.product.id,
+            variation_id: item.variation?.id,
+            quantity: item.qty,
+          }));
+
+          const coupon_lines = state.appliedCoupon ? [{ code: state.appliedCoupon.code }] : [];
+
+          const orderData = {
+            payment_method: paymentMethod,
+            payment_method_title: paymentMethod === 'cod' ? 'Cash on delivery' : 'Razorpay',
+            set_paid: paymentMethod !== 'cod', // Pay via Razorpay would mark it as paid later or now depending on flow
+            customer_id: state.user?.id || 0,
+            billing: customerDetails,
+            shipping: customerDetails,
+            line_items,
+            coupon_lines,
+          };
+
+          const order = await OrderService.createOrder(orderData);
+          if (order && order.id) {
+            await clearCart();
+            dispatch({ type: 'SET_COUPON', coupon: null });
+          }
+          return order;
+        } catch (err) {
+          console.error('Create order failed:', err);
+          throw err;
+        }
+      },
     };
-  }, [state, fetchCart]);
+  }, [state, fetchCart, clearCart]);
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 }

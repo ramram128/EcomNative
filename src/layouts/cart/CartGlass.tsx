@@ -7,7 +7,11 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  TextInput,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
+import { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { BlurView } from '@react-native-community/blur';
 import LinearGradient from 'react-native-linear-gradient';
@@ -26,8 +30,37 @@ const CartGlass: React.FC<CartLayoutProps> = ({
   clearCart,
   onCheckout,
   isLoading,
+  appliedCoupon,
+  applyCoupon,
+  removeCoupon,
 }) => {
   const insets = useSafeAreaInsets();
+  const [couponInput, setCouponInput] = useState('');
+  const [isApplying, setIsApplying] = useState(false);
+
+  const handleApplyCoupon = async () => {
+    if (!couponInput.trim()) return;
+    setIsApplying(true);
+    const success = await applyCoupon(couponInput);
+    setIsApplying(false);
+    if (success) {
+      setCouponInput('');
+      Alert.alert('Success', 'Coupon applied successfully!');
+    } else {
+      Alert.alert('Error', 'Invalid coupon code or not eligible.');
+    }
+  };
+
+  const calculateDiscount = () => {
+    if (!appliedCoupon) return 0;
+    if (appliedCoupon.discount_type === 'percent') {
+      return (cartTotal * parseFloat(appliedCoupon.amount)) / 100;
+    }
+    return parseFloat(appliedCoupon.amount);
+  };
+
+  const discountAmount = calculateDiscount();
+  const finalTotal = cartTotal - discountAmount;
 
   const renderItem = ({ item }: { item: any }) => {
     const priceDetails = getCartItemPriceDetails(item.product, item.variation);
@@ -112,6 +145,68 @@ const CartGlass: React.FC<CartLayoutProps> = ({
         )}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
+        ListFooterComponent={() => (
+          <View style={styles.footerContainer}>
+            {/* Coupon Section */}
+            <View style={styles.couponSection}>
+              <Text style={styles.sectionLabel}>Promotion Code</Text>
+              <View style={styles.couponInputRow}>
+                <TextInput
+                  style={styles.couponInput}
+                  placeholder="Enter coupon code"
+                  value={couponInput}
+                  onChangeText={setCouponInput}
+                  autoCapitalize="characters"
+                />
+                <TouchableOpacity
+                  style={[
+                    styles.applyBtn,
+                    (!couponInput.trim() || isApplying) && styles.applyBtnDisabled,
+                  ]}
+                  onPress={handleApplyCoupon}
+                  disabled={!couponInput.trim() || isApplying}
+                >
+                  {isApplying ? (
+                    <ActivityIndicator size="small" color="#fff" />
+                  ) : (
+                    <Text style={styles.applyBtnText}>Apply</Text>
+                  )}
+                </TouchableOpacity>
+              </View>
+
+              {appliedCoupon && (
+                <View style={styles.appliedCouponRow}>
+                  <View style={styles.appliedTag}>
+                    <Ionicons name="pricetag" size={12} color={JOY_COLORS.primary} />
+                    <Text style={styles.appliedText}>{appliedCoupon.code}</Text>
+                    <TouchableOpacity onPress={removeCoupon}>
+                      <Ionicons name="close-circle" size={16} color={JOY_COLORS.primary} />
+                    </TouchableOpacity>
+                  </View>
+                  <Text style={styles.discountValue}>-₹{Math.round(discountAmount)}</Text>
+                </View>
+              )}
+            </View>
+
+            {/* Price Breakdown */}
+            <View style={styles.breakdown}>
+              <View style={styles.breakdownRow}>
+                <Text style={styles.breakdownLabel}>Subtotal</Text>
+                <Text style={styles.breakdownValue}>₹{Math.round(cartTotal)}</Text>
+              </View>
+              {appliedCoupon && (
+                <View style={styles.breakdownRow}>
+                  <Text style={[styles.breakdownLabel, { color: JOY_COLORS.primary }]}>Discount</Text>
+                  <Text style={[styles.breakdownValue, { color: JOY_COLORS.primary }]}>-₹{Math.round(discountAmount)}</Text>
+                </View>
+              )}
+              <View style={styles.breakdownRow}>
+                <Text style={styles.breakdownLabel}>Shipping</Text>
+                <Text style={styles.breakdownValue}>Free</Text>
+              </View>
+            </View>
+          </View>
+        )}
       />
 
       {cart.length > 0 && (
@@ -133,7 +228,7 @@ const CartGlass: React.FC<CartLayoutProps> = ({
           <View style={styles.summaryContent}>
             <View style={styles.totalSection}>
               <Text style={styles.totalLabel}>TOTAL AMOUNT</Text>
-              <Text style={styles.totalValue}>₹{Math.round(cartTotal)}</Text>
+              <Text style={styles.totalValue}>₹{Math.round(finalTotal)}</Text>
             </View>
 
             <TouchableOpacity
@@ -347,6 +442,98 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '900',
+  },
+  footerContainer: {
+    paddingBottom: 20,
+  },
+  couponSection: {
+    marginBottom: 24,
+  },
+  sectionLabel: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: JOY_COLORS.text,
+    marginBottom: 10,
+    marginLeft: 4,
+  },
+  couponInputRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  couponInput: {
+    flex: 1,
+    height: 50,
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    fontSize: 14,
+    fontWeight: '600',
+    color: JOY_COLORS.text,
+    borderWidth: 1,
+    borderColor: '#fff1ed',
+  },
+  applyBtn: {
+    width: 80,
+    height: 50,
+    backgroundColor: JOY_COLORS.text,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  applyBtnDisabled: {
+    opacity: 0.5,
+  },
+  applyBtnText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '800',
+  },
+  appliedCouponRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 12,
+    paddingHorizontal: 4,
+  },
+  appliedTag: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff1ed',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 10,
+    gap: 6,
+  },
+  appliedText: {
+    color: JOY_COLORS.primary,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  discountValue: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: JOY_COLORS.primary,
+  },
+  breakdown: {
+    backgroundColor: '#fff',
+    borderRadius: 24,
+    padding: 20,
+    gap: 12,
+  },
+  breakdownRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  breakdownLabel: {
+    fontSize: 14,
+    color: '#926f64',
+    fontWeight: '600',
+  },
+  breakdownValue: {
+    fontSize: 14,
+    color: JOY_COLORS.text,
+    fontWeight: '800',
   },
 });
 

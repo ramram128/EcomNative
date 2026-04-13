@@ -198,6 +198,22 @@ export const OrderService = {
     const res = await api.get('/orders', { params });
     return res.data;
   },
+
+  createOrder: async (orderData: any) => {
+    const res = await api.post('/orders', orderData);
+    return res.data;
+  },
+};
+
+export const CouponService = {
+  getCoupon: async (code: string) => {
+    const res = await api.get('/coupons', {
+      params: {
+        code: code,
+      },
+    });
+    return res.data[0]; // Returns the first match or undefined
+  },
 };
 
 export const CartService = {

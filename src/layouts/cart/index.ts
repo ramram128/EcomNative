@@ -7,7 +7,7 @@ import { CartLayoutProps } from './types';
 
 const CartMap: Record<LayoutType, React.FC<CartLayoutProps>> = {
   crystal: CartCrystal,
-  modern: CartModern,
+  modern: CartGlass,
   glass: CartGlass,
 };
 

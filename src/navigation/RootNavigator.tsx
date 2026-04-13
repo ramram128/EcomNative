@@ -17,6 +17,7 @@ import CustomerCareScreen from '../screens/Profile/CustomerCareScreen';
 import OrdersScreen from '../screens/Profile/OrdersScreen';
 
 import AuthScreen from '../screens/Auth/AuthScreen';
+import CheckoutScreen from '../screens/Cart/CheckoutScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../constants/theme';
@@ -50,6 +51,7 @@ export type RootStackParamList = {
   ShippingAddress: undefined;
   CustomerCare: undefined;
   Orders: { status: 'pending' | 'delivered' | 'processing' | 'cancelled' };
+  Checkout: undefined;
 };
 
 /** -----------------------
@@ -120,6 +122,7 @@ export const RootNavigator = () => {
       <RootStack.Screen name="ShippingAddress" component={ShippingAddressScreen} />
       <RootStack.Screen name="CustomerCare" component={CustomerCareScreen} />
       <RootStack.Screen name="Orders" component={OrdersScreen} />
+      <RootStack.Screen name="Checkout" component={CheckoutScreen} />
     </RootStack.Navigator>
   );
 };

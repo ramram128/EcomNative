@@ -15,7 +15,19 @@ const TAB_HEIGHT = 65;
 const CartScreen = () => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
-  const { cart, cartTotal, setQty, removeFromCart, clearCart, isAuthenticated, fetchCart, isLoadingCart } = useShop();
+  const { 
+    cart, 
+    cartTotal, 
+    setQty, 
+    removeFromCart, 
+    clearCart, 
+    isAuthenticated, 
+    fetchCart, 
+    isLoadingCart,
+    appliedCoupon,
+    applyCoupon,
+    removeCoupon
+  } = useShop();
 
   // Refresh cart on focus
   useFocusEffect(
@@ -36,7 +48,7 @@ const CartScreen = () => {
       );
       return;
     }
-    Alert.alert('Checkout', 'Checkout functionality coming soon!');
+    navigation.navigate('Checkout' as never);
   };
 
   if (isLoadingCart && cart.length === 0) {
@@ -74,6 +86,9 @@ const CartScreen = () => {
       isAuthenticated={isAuthenticated}
       onCheckout={handleCheckout}
       isLoading={isLoadingCart}
+      appliedCoupon={appliedCoupon}
+      applyCoupon={applyCoupon}
+      removeCoupon={removeCoupon}
     />
   );
 };

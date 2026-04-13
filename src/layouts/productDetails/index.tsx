@@ -7,7 +7,7 @@ import { ProductDetailsLayoutProps } from './types';
 
 const ProductDetailsMap: Record<LayoutType, React.FC<ProductDetailsLayoutProps>> = {
   crystal: ProductDetailsCrystal,
-  modern: ProductDetailsModern,
+  modern: ProductDetailsGlass,
   glass: ProductDetailsGlass,
 };
 

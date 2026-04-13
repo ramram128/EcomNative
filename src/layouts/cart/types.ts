@@ -9,4 +9,7 @@ export interface CartLayoutProps {
   isAuthenticated: boolean;
   onCheckout: () => void;
   isLoading: boolean;
+  appliedCoupon: any | null;
+  applyCoupon: (code: string) => Promise<boolean>;
+  removeCoupon: () => void;
 }

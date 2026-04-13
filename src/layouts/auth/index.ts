@@ -6,7 +6,7 @@ import { ACTIVE_LAYOUT } from '../../constants/theme';
 
 const AuthLayoutMap = {
   crystal: AuthLayoutCrystal,
-  modern: AuthLayoutModern,
+  modern: AuthLayoutGlass,
   glass: AuthLayoutGlass,
 };
 
