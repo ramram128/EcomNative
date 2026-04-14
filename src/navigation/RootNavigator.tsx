@@ -18,9 +18,12 @@ import OrdersScreen from '../screens/Profile/OrdersScreen';
 
 import AuthScreen from '../screens/Auth/AuthScreen';
 import CheckoutScreen from '../screens/Cart/CheckoutScreen';
+import UPIPaymentScreen from '../screens/Cart/UPIPaymentScreen';
+import PaymentResultScreen from '../screens/Cart/PaymentResultScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../constants/theme';
+import { useShop } from '../store/shopStore';
 
 /** -----------------------
  *  Types
@@ -52,6 +55,8 @@ export type RootStackParamList = {
   CustomerCare: undefined;
   Orders: { status: 'pending' | 'delivered' | 'processing' | 'cancelled' };
   Checkout: undefined;
+  UPIPayment: { shippingAddress: any; finalAmount: number };
+  PaymentResult: { success: boolean; orderId: number; paymentId?: string; amount?: number; error?: string };
 };
 
 /** -----------------------
@@ -110,19 +115,38 @@ const Tabs = () => {
  *  Root Navigator (Stack -> Tabs + extra screens)
  *  ----------------------*/
 
-export const RootNavigator = () => {
-  return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      <RootStack.Screen name="Auth" component={AuthScreen} />
-      <RootStack.Screen name="Tabs" component={Tabs} />
+import { View, ActivityIndicator } from 'react-native';
 
-      {/* Profile menu screens */}
+export const RootNavigator = () => {
+  const { isAuthenticated, isAuthLoading } = useShop();
+
+  if (isAuthLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#0F0F1A' }}>
+        <ActivityIndicator size="large" color="#7C3AED" />
+      </View>
+    );
+  }
+
+  return (
+    <RootStack.Navigator 
+      screenOptions={{ headerShown: false }}
+    >
+      {isAuthenticated ? (
+        <RootStack.Screen name="Tabs" component={Tabs} />
+      ) : (
+        <RootStack.Screen name="Auth" component={AuthScreen} />
+      )}
+
+      {/* Profile menu screens - only accessible if authenticated usually, but can be global */}
       <RootStack.Screen name="EditProfile" component={EditProfileScreen} />
 
       <RootStack.Screen name="ShippingAddress" component={ShippingAddressScreen} />
       <RootStack.Screen name="CustomerCare" component={CustomerCareScreen} />
       <RootStack.Screen name="Orders" component={OrdersScreen} />
       <RootStack.Screen name="Checkout" component={CheckoutScreen} />
+      <RootStack.Screen name="UPIPayment" component={UPIPaymentScreen} />
+      <RootStack.Screen name="PaymentResult" component={PaymentResultScreen} />
     </RootStack.Navigator>
   );
 };

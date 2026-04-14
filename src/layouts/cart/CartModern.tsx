@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { BlurView } from '@react-native-community/blur';
 import LinearGradient from 'react-native-linear-gradient';
 import { COLORS } from '../../constants/theme';
 import { CartLayoutProps } from './types';
@@ -107,19 +106,10 @@ const CartModern: React.FC<CartLayoutProps> = ({
 
       {/* Bottom total + checkout */}
       <View style={[styles.bottomBar, { bottom: TAB_HEIGHT + insets.bottom + -50 }]}>
-        {Platform.OS === 'ios' ? (
-          <BlurView
-            style={StyleSheet.absoluteFill}
-            blurType="light"
-            blurAmount={20}
-            reducedTransparencyFallbackColor="white"
-          />
-        ) : (
-          <LinearGradient
+        <LinearGradient
             colors={[COLORS.background + 'CC', COLORS.background + 'EE']}
             style={StyleSheet.absoluteFill}
           />
-        )}
         <View style={styles.floatingContent}>
           <View>
             <Text style={styles.totalLabel}>Total</Text>

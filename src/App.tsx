@@ -6,15 +6,19 @@ import {
   SafeAreaView,
 } from 'react-native-safe-area-context';
 import { ShopProvider } from './store/shopStore';
+import { PopupProvider } from './context/PopupContext';
+
 export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right']}>
-        <ShopProvider>
-        <NavigationContainer>
-          <RootNavigator />
-        </NavigationContainer>
-        </ShopProvider>
+        <PopupProvider>
+          <ShopProvider>
+            <NavigationContainer>
+              <RootNavigator />
+            </NavigationContainer>
+          </ShopProvider>
+        </PopupProvider>
       </SafeAreaView>
     </SafeAreaProvider>
   );

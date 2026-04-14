@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useMemo, useReducer, useEffect, useCallback, useRef } from 'react';
 import type { Product, Variation } from '../types/product';
 import { CartService, ProductService } from '../api/wooApi2';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type CartItem = {
   product: Product;
@@ -14,6 +15,7 @@ type State = {
   cart: CartItem[];
   isLoadingCart: boolean;
   isAuthenticated: boolean;
+  isAuthLoading: boolean;
   user: any; // TODO: define user type
   appliedCoupon: any | null;
 };
@@ -23,6 +25,7 @@ type Action =
   | { type: 'REMOVE_WISHLIST'; productId: number }
   | { type: 'SET_CART'; cart: CartItem[] }
   | { type: 'SET_CART_LOADING'; isLoading: boolean }
+  | { type: 'SET_AUTH_LOADING'; isLoading: boolean }
   | { type: 'ADD_TO_CART_LOCAL'; product: Product; qty?: number; variation?: Variation }
   | { type: 'REMOVE_FROM_CART_LOCAL'; productId: number; variationId?: number }
   | { type: 'SET_QTY_LOCAL'; productId: number; qty: number; variationId?: number }
@@ -35,6 +38,7 @@ const initialState: State = {
   cart: [],
   isLoadingCart: false,
   isAuthenticated: false,
+  isAuthLoading: true,
   user: null,
   appliedCoupon: null,
 };
@@ -106,7 +110,10 @@ function reducer(state: State, action: Action): State {
       return { ...state, cart: [] };
 
     case 'SET_AUTH':
-      return { ...state, isAuthenticated: action.isAuthenticated, user: action.user };
+      return { ...state, isAuthenticated: action.isAuthenticated, user: action.user, isAuthLoading: false };
+    
+    case 'SET_AUTH_LOADING':
+      return { ...state, isAuthLoading: action.isLoading };
 
     case 'SET_COUPON':
       return { ...state, appliedCoupon: action.coupon };
@@ -134,6 +141,7 @@ type ShopContextValue = {
   cartCount: number;
   cartTotal: number;
   isAuthenticated: boolean;
+  isAuthLoading: boolean;
   user: any;
   setAuth: (isAuthenticated: boolean, user?: any) => void;
 
@@ -147,6 +155,27 @@ const ShopContext = createContext<ShopContextValue | null>(null);
 
 export function ShopProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const USER_STORAGE_KEY = '@EcomNative_User';
+
+  // 1. Initial Load from Storage
+  useEffect(() => {
+    const loadPersistedUser = async () => {
+      try {
+        const savedUser = await AsyncStorage.getItem(USER_STORAGE_KEY);
+        if (savedUser) {
+          const user = JSON.parse(savedUser);
+          dispatch({ type: 'SET_AUTH', isAuthenticated: true, user });
+        } else {
+          dispatch({ type: 'SET_AUTH_LOADING', isLoading: false });
+        }
+      } catch (err) {
+        console.error('Failed to load persisted user:', err);
+        dispatch({ type: 'SET_AUTH_LOADING', isLoading: false });
+      }
+    };
+    loadPersistedUser();
+  }, []);
 
   // Sync cart when user ID is available
   const userId = state.user?.id || state.user?.user_id;
@@ -367,8 +396,20 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
       cartTotal,
 
       isAuthenticated: state.isAuthenticated,
+      isAuthLoading: state.isAuthLoading,
       user: state.user,
-      setAuth: (isAuthenticated, user) => dispatch({ type: 'SET_AUTH', isAuthenticated, user }),
+      setAuth: async (isAuthenticated, user) => {
+        try {
+          if (isAuthenticated && user) {
+            await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+          } else {
+            await AsyncStorage.removeItem(USER_STORAGE_KEY);
+          }
+        } catch (err) {
+          console.error('Failed to update auth storage:', err);
+        }
+        dispatch({ type: 'SET_AUTH', isAuthenticated, user });
+      },
 
       appliedCoupon: state.appliedCoupon,
       applyCoupon: async (code: string) => {
@@ -402,7 +443,8 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
           const orderData = {
             payment_method: paymentMethod,
             payment_method_title: paymentMethod === 'cod' ? 'Cash on delivery' : 'Razorpay',
-            set_paid: paymentMethod !== 'cod', // Pay via Razorpay would mark it as paid later or now depending on flow
+            set_paid: false, // Always false — payment is confirmed after SDK success
+            status: paymentMethod === 'cod' ? 'processing' : 'pending',
             customer_id: state.user?.id || 0,
             billing: customerDetails,
             shipping: customerDetails,

@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { BlurView } from '@react-native-community/blur';
 import LinearGradient from 'react-native-linear-gradient';
 import { COLORS } from '../../constants/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -23,19 +22,10 @@ export const TabBarGlass = ({ state, descriptors, navigation }: BottomTabBarProp
 
     return (
         <View style={[styles.outerContainer, { bottom: insets.bottom + 5 }]}>
-            {Platform.OS === 'ios' ? (
-                <BlurView
-                    style={StyleSheet.absoluteFill}
-                    blurType="light"
-                    blurAmount={20}
-                    reducedTransparencyFallbackColor="white"
-                />
-            ) : (
-                <LinearGradient
-                    colors={[COLORS.background + 'CC', COLORS.background + 'EE']}
-                    style={StyleSheet.absoluteFill}
-                />
-            )}
+            <LinearGradient
+                colors={[COLORS.background + 'CC', COLORS.background + 'EE']}
+                style={StyleSheet.absoluteFill}
+            />
             <View style={styles.container}>
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key];

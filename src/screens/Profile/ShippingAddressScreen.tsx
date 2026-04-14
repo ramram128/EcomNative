@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../navigation/types';
 import { useShop } from '../../store/shopStore';
+import { usePopup } from '../../context/PopupContext';
 import { CustomerService } from '../../api/wooApi2';
 import { SelectedShippingAddressLayout } from '../../layouts';
 import type { ShippingAddressData } from '../../layouts/ShippingAddressScreen';
@@ -11,6 +12,7 @@ import type { ShippingAddressData } from '../../layouts/ShippingAddressScreen';
 const ShippingAddressScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { user } = useShop();
+  const { showAlert, showToast } = usePopup();
   const [address, setAddress] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -64,10 +66,10 @@ const ShippingAddressScreen = () => {
       await CustomerService.updateCustomer(user.id, { shipping: formData });
       setAddress(formData);
       setIsEditing(false);
-      Alert.alert('Success', 'Address updated successfully');
+      showToast('Success', 'Address updated successfully');
     } catch (error) {
       console.error('Failed to update address:', error);
-      Alert.alert('Error', 'Failed to update address');
+      showAlert('Error', 'Failed to update address', 'error');
     } finally {
       setSaving(false);
     }

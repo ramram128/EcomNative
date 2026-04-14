@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { BlurView } from '@react-native-community/blur';
 import LinearGradient from 'react-native-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, JOY_COLORS } from '../../constants/theme';
@@ -211,19 +210,10 @@ const CartGlass: React.FC<CartLayoutProps> = ({
 
       {cart.length > 0 && (
         <View style={[styles.floatingSummary, { bottom: TAB_HEIGHT + insets.bottom + 15 }]}>
-          {Platform.OS === 'ios' ? (
-            <BlurView
-              style={StyleSheet.absoluteFill}
-              blurType="light"
-              blurAmount={30}
-              reducedTransparencyFallbackColor="white"
-            />
-          ) : (
-            <LinearGradient
+          <LinearGradient
               colors={['#ffffffcc', '#ffffffee']}
               style={StyleSheet.absoluteFill}
             />
-          )}
 
           <View style={styles.summaryContent}>
             <View style={styles.totalSection}>

@@ -12,7 +12,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { BlurView } from '@react-native-community/blur';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { ProductDetailsLayoutProps } from './types';
@@ -23,6 +22,7 @@ import { useShop } from '../../store/shopStore';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS, JOY_COLORS } from '../../constants/theme';
 import { Dimensions } from 'react-native';
+import { usePopup } from '../../context/PopupContext';
 
 const { width } = Dimensions.get('window');
 
@@ -42,6 +42,7 @@ export default function ProductDetailsGlass({
   onDeleteReview,
 }: ProductDetailsLayoutProps) {
   const { addToCart, toggleWishlist, isWishlisted, isAuthenticated } = useShop();
+  const { showToast, showAlert } = usePopup();
   const wished = isWishlisted(product.id);
   const insets = useSafeAreaInsets();
   const TAB_HEIGHT = 65;
@@ -138,7 +139,13 @@ export default function ProductDetailsGlass({
 
   const handleAddToCart = () => {
     addToCart(product, 1, selectedVariation || undefined);
-    Alert.alert('Added to cart', `${product.name} added to cart.`);
+    showToast('Success', `${product.name} added to cart!`);
+  };
+
+  const handleOrderNow = () => {
+    // Add to cart and navigate directly to checkout
+    addToCart(product, 1, selectedVariation || undefined);
+    navigation.navigate('Checkout' as never);
   };
 
   const renderStars = (rating: number) => {
@@ -409,7 +416,11 @@ export default function ProductDetailsGlass({
                                 {
                                   text: 'Delete',
                                   style: 'destructive',
-                                  onPress: () => onDeleteReview?.(item.id),
+                                  onPress: () => {
+                                    showAlert('Delete Review', 'Are you sure you want to delete this review?', 'warning', () => {
+                                      onDeleteReview?.(item.id);
+                                    });
+                                  },
                                 },
                               ]
                             );
@@ -496,31 +507,28 @@ export default function ProductDetailsGlass({
         styles.floatingBar,
         { bottom: TAB_HEIGHT + insets.bottom + 10 }
       ]}>
-        {Platform.OS === 'ios' ? (
-          <BlurView
-            style={StyleSheet.absoluteFill}
-            blurType="light"
-            blurAmount={20}
-            reducedTransparencyFallbackColor="white"
-          />
-        ) : (
-          <LinearGradient
+        <LinearGradient
             colors={[COLORS.background + 'CC', COLORS.background + 'EE']}
             style={StyleSheet.absoluteFill}
           />
-        )}
 
         <View style={styles.floatingContent}>
           <Text style={styles.floatingPrice}>₹ {priceData.finalPrice}</Text>
-          <TouchableOpacity
-            onPress={handleAddToCart}
-            style={styles.cartBtn}
-          >
-            <Ionicons name="cart-outline" size={18} color="#fff" />
-            <Text style={{ color: '#fff', marginLeft: 8, fontWeight: 'bold' }}>
-              Add to Cart
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.buttonGroup}>
+            <TouchableOpacity
+              onPress={handleAddToCart}
+              style={styles.cartBtn}
+            >
+              <Ionicons name="cart-outline" size={16} color="#fff" />
+            </TouchableOpacity>
+            
+            <TouchableOpacity
+              onPress={handleOrderNow}
+              style={styles.orderBtn}
+            >
+              <Text style={styles.orderBtnText}>Order Now</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
@@ -661,12 +669,38 @@ const styles = StyleSheet.create({
     color: '#E53935',
   },
   cartBtn: {
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-    borderRadius: 20,
+    backgroundColor: COLORS.primary + '30',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: COLORS.primary + '50',
+  },
+  buttonGroup: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 10,
+  },
+  orderBtn: {
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 20,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  orderBtnText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '900',
+    letterSpacing: 0.5,
   },
   reviewForm: {
     backgroundColor: '#fff',

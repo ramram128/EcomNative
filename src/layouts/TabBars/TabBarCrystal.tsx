@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { BlurView } from '@react-native-community/blur';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../../constants/theme';
 
@@ -23,15 +22,7 @@ export const TabBarCrystal = ({ state, descriptors, navigation }: BottomTabBarPr
     return (
         <View style={[styles.outerContainer, { bottom: insets.bottom }]}>
             {/* Glassmorphism Background */}
-            {Platform.OS === 'ios' ? (
-                <BlurView
-                    style={StyleSheet.absoluteFill}
-                    blurType="dark"
-                    blurAmount={15}
-                />
-            ) : (
-                <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(20, 20, 30, 0.85)' }]} />
-            )}
+            <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(20, 20, 30, 0.85)' }]} />
 
             <View style={styles.container}>
                 {state.routes.map((route, index) => {

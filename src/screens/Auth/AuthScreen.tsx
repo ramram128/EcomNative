@@ -4,10 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import { SelectedAuthLayout } from '../../layouts/auth';
 import { CustomerService } from '../../api/wooApi2';
 import { useShop } from '../../store/shopStore';
+import { usePopup } from '../../context/PopupContext';
 
 const AuthScreen = () => {
   const navigation = useNavigation();
   const { setAuth } = useShop();
+  const { showAlert, showToast } = usePopup();
 
   // Form state
   const [isSignup, setIsSignup] = useState(true);
@@ -21,7 +23,7 @@ const AuthScreen = () => {
   // Business logic
   const handleSignup = async () => {
     if (!email || !password || !firstName || !lastName) {
-      Alert.alert('Error', 'Please fill all mandatory fields');
+      showAlert('Required Fields', 'Please fill all mandatory fields', 'warning');
       return;
     }
     if (password !== confirmPassword) {
@@ -73,10 +75,11 @@ const AuthScreen = () => {
         last_name: customer.last_name,
       });
       // Alert.alert('Success', 'Logged in successfully');
+      showToast('Welcome back!', customer.email);
       navigation.navigate('Tabs' as never);
     } catch (error: any) {
       const message = error.response?.data?.message || error.message || 'Login failed';
-      Alert.alert('Error', message);
+      showAlert('Login Error', message, 'error');
     } finally {
       setLoading(false);
     }

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Alert, Activ
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { BlurView } from '@react-native-community/blur';
+
 import LinearGradient from 'react-native-linear-gradient';
 
 import { useShop } from '../../store/shopStore';

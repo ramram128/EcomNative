@@ -14,10 +14,14 @@ export type TabParamList = {
 };
 
 export type RootStackParamList = {
+  Auth: undefined;
   Tabs: NavigatorScreenParams<TabParamList>;
 
   Orders: { status: 'pending' | 'delivered' | 'processing' | 'cancelled' };
   CustomerCare: undefined;
   EditProfile: undefined;
   ShippingAddress: undefined;
+  Checkout: undefined;
+  UPIPayment: { shippingAddress: any; finalAmount: number };
+  PaymentResult: { success: boolean; orderId: number; paymentId?: string; amount?: number; error?: string };
 };
