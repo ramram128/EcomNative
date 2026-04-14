@@ -4,7 +4,7 @@ import { COLORS } from "../constants/theme";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.mainBackground,
   },
 
   header: {
@@ -299,37 +299,56 @@ export const styles = StyleSheet.create({
     fontWeight: "900",
   },
   /* ===== Bottom Action Row ===== */
-actionRow: {
-  flexDirection: 'row',
-  gap: 12,
-},
+  actionRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
 
-actionBtn: {
-  flex: 1,
-  height: 52,
-  borderRadius: 14,
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexDirection: 'row',
-  gap: 6,
-},
+  actionBtn: {
+    flex: 1,
+    height: 52,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 6,
+  },
 
-cartBtn: {
-  backgroundColor: COLORS.primary,
-},
+  cartBtn: {
+    backgroundColor: COLORS.primary,
+  },
 
-orderBtn: {
-  backgroundColor: '#000', // or COLORS.success / COLORS.accent
-},
+  orderBtn: {
+    backgroundColor: '#000', // or COLORS.success / COLORS.accent
+  },
 
-actionBtnDisabled: {
-  opacity: 0.55,
-},
+  actionBtnDisabled: {
+    opacity: 0.55,
+  },
 
-actionText: {
-  color: COLORS.white,
-  fontSize: 14,
-  fontWeight: '900',
-},
-
+  actionText: {
+    color: COLORS.white,
+    fontSize: 14,
+    fontWeight: '900',
+  },
+  /* ===== Grouped Product Styles ===== */
+  groupedItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+    gap: 12,
+  },
+  groupedItemName: {
+    flex: 1,
+    fontSize: 14,
+    color: COLORS.text,
+    fontWeight: '500',
+  },
+  priceSmall: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: COLORS.text,
+  },
 });

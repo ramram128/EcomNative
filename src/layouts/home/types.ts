@@ -5,4 +5,6 @@ export interface HomeLayoutProps {
   onPress: (product: Product) => void;
   refreshing: boolean;
   onRefresh: () => void;
+  searchQuery: string;
+  setSearchQuery: (text: string) => void;
 }

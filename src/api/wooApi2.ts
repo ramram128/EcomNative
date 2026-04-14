@@ -5,6 +5,8 @@ import {
   WOO_CONSUMER_KEY,
   WOO_CONSUMER_SECRET
 } from '@env';
+import base64 from 'base-64';
+
 
 const api = axios.create({
   baseURL: `${WOO_BASE_URL}/wp-json/wc/v3`,
@@ -14,6 +16,9 @@ const api = axios.create({
     consumer_secret: WOO_CONSUMER_SECRET,
   },
 });
+
+const auth = `Basic ${base64.encode(`${WOO_CONSUMER_KEY}:${WOO_CONSUMER_SECRET}`)}`;
+
 
 export const ProductService = {
 
@@ -32,11 +37,88 @@ export const ProductService = {
     return res.data;
   },
 
-  getVariations: async (productId: number): Promise<Variation[]> => {
-    const res = await api.get(`/products/${productId}/variations`, {
+  getVariations: async (productId: number) => {
+    const res = await fetch(`${WOO_BASE_URL}/wp-json/wc/v3/products/${productId}/variations?per_page=100`, {
+      headers: {
+        'Authorization': auth,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+    return res.json();
+  },
+
+  // NEW: Fetch multiple products by ID (Required for Grouped Products)
+  getMultipleProducts: async (ids: number[]): Promise<Product[]> => {
+    const res = await api.get('/products', {
       params: {
-        per_page: 100,
+        include: ids.join(','),
       },
+    });
+    return res.data;
+  },
+
+  // NEW: Get Reviews
+  getProductReviews: async (productId: number) => {
+    try {
+      const res = await api.get('/products/reviews', {
+        params: {
+          product: productId,
+          status: 'approved',
+          per_page: 20,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  },
+
+  getProductsByCategory: async (categoryId: number) => {
+    try {
+      const res = await api.get('/products', {
+        params: {
+          category: categoryId,
+          per_page: 10,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  },
+
+
+
+  // NEW: Post a Review
+  addReview: async (reviewData: {
+    product_id: number;
+    review: string;
+    reviewer: string;
+    reviewer_email: string;
+    rating: number;
+  }) => {
+    const res = await api.post('/products/reviews', reviewData);
+    return res.data;
+  },
+
+  // Update a Review
+  updateReview: async (reviewId: number, reviewData: {
+    review: string;
+    rating: number;
+  }) => {
+    const res = await api.put(`/products/reviews/${reviewId}`, reviewData);
+    return res.data;
+  },
+
+  // Delete a Review
+  deleteReview: async (reviewId: number) => {
+    const res = await api.delete(`/products/reviews/${reviewId}`, {
+      params: { force: true },
     });
     return res.data;
   },
@@ -54,25 +136,30 @@ export const CustomerService = {
   },
 
   login: async (credentials: { email: string; password: string }) => {
-    // WooCommerce doesn't have a direct login endpoint for customers
-    // We'll need to use a custom endpoint or JWT authentication
-    // For now, we'll search for the customer by email and verify password
-    // This is not secure and should be replaced with proper authentication
     try {
-      // This is a placeholder - in real implementation, you'd have a proper auth endpoint
-      const customers = await api.get('/customers', {
-        params: { email: credentials.email, per_page: 1 }
-      });
-      
-      if (customers.data && customers.data.length > 0) {
-        const customer = customers.data[0];
-        // Note: Password verification should be done server-side
-        // This is just for demo purposes
-        return customer;
+      // 1. Get the ID and Token from custom API
+      const authRes = await api.post('https://infinitroot.com/wp-json/mobile/v1/login', {
+        username: credentials.email,
+        password: credentials.password,
+      }, { params: {} });
+
+      if (authRes.data.status) {
+        const userId = authRes.data.user_id;
+        const token = authRes.data.token;
+
+        // 2. Use the ID to get full profile from WooCommerce REST API
+        // This uses your existing 'api' instance which has the consumer keys
+        const profileRes = await api.get(`/customers/${userId}`);
+
+        // 3. Merge them: Return WooCommerce data + the JWT Token
+        return {
+          ...profileRes.data,
+          token: token // Attach the token so the store can save it
+        };
       }
       throw new Error('Invalid credentials');
-    } catch {
-      throw new Error('Login failed');
+    } catch (error) {
+      throw new Error('Login or Profile fetch failed');
     }
   },
 
@@ -87,7 +174,11 @@ export const CustomerService = {
   },
 
   deleteCustomer: async (id: number) => {
-    const res = await api.delete(`/customers/${id}`);
+    const res = await api.delete(`/customers/${id}`, {
+      params: {
+        force: true, // This is the crucial line
+      },
+    });
     return res.data;
   },
 };
@@ -98,13 +189,71 @@ export const OrderService = {
       customer: customerId,
       per_page: 20,
     };
-    
+
     // Only add status if it's not 'all' or 'wishlist'
     if (status && status !== 'wishlist' && status !== 'support') {
       params.status = status;
     }
 
     const res = await api.get('/orders', { params });
+    return res.data;
+  },
+
+  createOrder: async (orderData: any) => {
+    const res = await api.post('/orders', orderData);
+    return res.data;
+  },
+};
+
+export const CouponService = {
+  getCoupon: async (code: string) => {
+    const res = await api.get('/coupons', {
+      params: {
+        code: code,
+      },
+    });
+    return res.data[0]; // Returns the first match or undefined
+  },
+};
+
+export const CartService = {
+  getCart: async (userId: number) => {
+    const res = await axios.get(`https://infinitroot.com/wp-json/mobile/v1/cart?user_id=${userId}`);
+    return res.data;
+  },
+
+  updateCartItem: async (data: {
+    user_id: number;
+    product_id: number;
+    variation_id?: number;
+    quantity: number;
+    cart_item_key?: string; // Used to identify the exact cart item to UPDATE instead of ADD
+  }) => {
+    console.log('[DEBUG] updateCartItem payload:', data);
+    const res = await axios.post(`https://infinitroot.com/wp-json/mobile/v1/cart/item`, data);
+    return res.data;
+  },
+
+  removeCartItem: async (userId: number, productId: number) => {
+    // The explicit requirements from the user's Postman screenshot are:
+    // DELETE https://infinitroot.com/wp-json/mobile/v1/cart/item
+    // Body (raw JSON): { "user_id": 4, "product_id": 1216 }
+    const payload = { 
+      user_id: userId, 
+      product_id: Number(productId),
+    };
+
+    console.log('[DEBUG] removeCartItem payload:', payload);
+
+    const res = await axios.delete(`https://infinitroot.com/wp-json/mobile/v1/cart/item`, {
+      data: payload,
+      headers: { 'Content-Type': 'application/json' }
+    });
+    return res.data;
+  },
+
+  clearCart: async (userId: number) => {
+    const res = await axios.post(`https://infinitroot.com/wp-json/mobile/v1/cart/empty`, { user_id: userId });
     return res.data;
   },
 };

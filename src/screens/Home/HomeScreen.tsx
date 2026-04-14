@@ -9,7 +9,7 @@ export default function HomeScreen({ navigation }: any) {
   const [data, setData] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  
+
   // 1. Add state for the search query
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -66,23 +66,13 @@ export default function HomeScreen({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-      {/* 3. Add the Search Bar UI */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          placeholder="Search products"
-          placeholderTextColor="#888"
-          style={styles.searchInput}
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          clearButtonMode="while-editing"
-        />
-      </View>
-
-      {/* 4. Pass filteredProducts instead of raw data */}
       <SelectedHomeLayout
         products={filteredProducts}
         refreshing={refreshing}
         onRefresh={onRefresh}
+        // ✅ Pass search props down
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
         onPress={(product: Product) =>
           navigation.navigate('ProductDetails', { product })
         }
@@ -97,15 +87,15 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   center: {
-    flex: 1, 
-    justifyContent: 'center', 
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.background 
+    backgroundColor: COLORS.background
   },
   searchContainer: {
     padding: 10,
     backgroundColor: COLORS.background,
-    
+
   },
   searchInput: {
     height: 45,

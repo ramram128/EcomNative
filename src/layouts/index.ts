@@ -1,5 +1,6 @@
 import { ACTIVE_LAYOUT } from '../constants/theme';
 import HomeCrystal from './home/HomeCrystal';
+import HomeGlass from './home/HomeGlass';
 import HomeModern from './home/HomeModern';
 // ✅ Keep these imports as they are
 import ProductDetailsLayoutCrystal from './productDetails/ProductDetailsLayoutCrystal';
@@ -8,34 +9,42 @@ import ProfileScreenModern from './profilescreen/ProfileScreenModern';
 import { EditProfileLayoutModern } from './EditProfileScreen/EditProfileLayout';
 import { SelectedShippingAddressLayout } from './ShippingAddressScreen';
 import { SelectedOrdersLayout } from './orders';
-import AuthLayoutModern  from './auth/AuthLayoutModern';
+import { SelectedAuthLayout } from './auth';
+import CartCrystal from './cart/CartCrystal';
+import CartGlass from './cart/CartGlass';
+import CartModern from './cart/CartModern';
 
 // Mapping for Home Screen
 const HomeMap = {
   crystal: HomeCrystal,
-  modern: HomeModern,
+  modern: HomeGlass,
+  glass: HomeGlass,
 };
 
 // Mapping for Details Screen
 const DetailsMap = {
-  
-  crystal: ProductDetailsLayoutCrystal, 
+
+  crystal: ProductDetailsLayoutCrystal,
   modern: ProductDetailsLayoutModern,
+  glass: ProductDetailsLayoutCrystal,
 };
 
 const ProfileScreenLayoutMap = {
-  crystal: ProfileScreenModern, 
+  crystal: ProfileScreenModern,
   modern: ProfileScreenModern,
+  glass: ProfileScreenModern,
 }
 
 const EditProfileLayoutMap = {
-  crystal: EditProfileLayoutModern, 
+  crystal: EditProfileLayoutModern,
   modern: EditProfileLayoutModern,
+  glass: EditProfileLayoutModern,
 }
 
-const AuthLayoutMap = {
-  crystal: AuthLayoutModern, 
-  modern: AuthLayoutModern,
+const CartMap = {
+  crystal: CartCrystal,
+  modern: CartModern,
+  glass: CartGlass,
 }
 
 export const SelectedHomeLayout = HomeMap[ACTIVE_LAYOUT];
@@ -44,4 +53,5 @@ export const SelectedProfileScreenLayout = ProfileScreenLayoutMap[ACTIVE_LAYOUT]
 export const SelectedEditProfileLayout = EditProfileLayoutMap[ACTIVE_LAYOUT];
 export { SelectedShippingAddressLayout } from './ShippingAddressScreen';
 export { SelectedOrdersLayout } from './orders';
-export const SelectedAuthLayout =AuthLayoutMap[ACTIVE_LAYOUT];
+export { SelectedAuthLayout } from './auth';
+export const SelectedCartLayout = CartMap[ACTIVE_LAYOUT];

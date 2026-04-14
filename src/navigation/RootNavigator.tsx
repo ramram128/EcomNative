@@ -17,6 +17,7 @@ import CustomerCareScreen from '../screens/Profile/CustomerCareScreen';
 import OrdersScreen from '../screens/Profile/OrdersScreen';
 
 import AuthScreen from '../screens/Auth/AuthScreen';
+import CheckoutScreen from '../screens/Cart/CheckoutScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { COLORS } from '../constants/theme';
@@ -50,6 +51,7 @@ export type RootStackParamList = {
   ShippingAddress: undefined;
   CustomerCare: undefined;
   Orders: { status: 'pending' | 'delivered' | 'processing' | 'cancelled' };
+  Checkout: undefined;
 };
 
 /** -----------------------
@@ -81,6 +83,8 @@ const TAB_ICONS: Record<keyof TabParamList, string> = {
   Profile: 'person-outline',
 };
 
+import { SelectedBottomTabBar } from '../layouts/TabBars';
+
 /** -----------------------
  *  Tabs
  *  ----------------------*/
@@ -88,24 +92,10 @@ const TAB_ICONS: Record<keyof TabParamList, string> = {
 const Tabs = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      tabBar={props => <SelectedBottomTabBar {...props} />}
+      screenOptions={{
         headerShown: false,
-
-        tabBarActiveTintColor: COLORS.primary,
-        tabBarInactiveTintColor: '#999',
-        tabBarShowLabel: true,
-
-        tabBarStyle: {
-          height: 60,
-          paddingBottom: 6,
-          paddingTop: 6,
-        },
-
-        tabBarIcon: ({ color, size }) => {
-          const iconName = TAB_ICONS[route.name];
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-      })}
+      }}
     >
       <Tab.Screen name="Shop" component={HomeStack} />
       <Tab.Screen name="Search" component={SearchScreen} />
@@ -132,6 +122,7 @@ export const RootNavigator = () => {
       <RootStack.Screen name="ShippingAddress" component={ShippingAddressScreen} />
       <RootStack.Screen name="CustomerCare" component={CustomerCareScreen} />
       <RootStack.Screen name="Orders" component={OrdersScreen} />
+      <RootStack.Screen name="Checkout" component={CheckoutScreen} />
     </RootStack.Navigator>
   );
 };

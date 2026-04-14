@@ -10,37 +10,71 @@ export interface ProductAttribute {
   id?: number;
   name: string;
   options: string[];
-  variation: boolean;
+  variation: boolean; // If true, this attribute is used for variations
+  visible: boolean;
 }
 
 // Product
 export interface Product {
   id: number;
   name: string;
-  type: 'simple' | 'variable';
-  price: string;
-  regular_price: string;
-  sale_price?: string;
-  categories?: { name: string }[]; // Fixes the first red line
-  images: WooImage[];
+  slug: string;
+  // Updated type to include all 4 core types
+  type: 'simple' | 'variable' | 'grouped' | 'external';
+  status: 'publish' | 'draft' | 'pending' | 'private';
+  featured: boolean;
+  catalog_visibility: 'visible' | 'catalog' | 'search' | 'hidden';
   description: string;
   short_description: string;
-  date_created?: string;  
-  date_created_gmt?: string;
-  avg_rating?: number;
-  rating_count?: number;
-  attributes?: ProductAttribute[];
+  sku: string;
+  price: string;
+  regular_price: string;
+  sale_price: string;
+  on_sale: boolean;
+  purchasable: boolean;
+
+  // Stock Management
+  manage_stock: boolean;
+  stock_quantity: number | null;
+  stock_status: 'instock' | 'outofstock' | 'onbackorder';
+
+  // External Product Fields
+  external_url?: string;
+  button_text?: string;
+
+  // Grouped Product Fields
+  grouped_products?: number[]; // Array of IDs for child products
+
+  categories: { id: number; name: string; slug: string }[];
+  tags: { id: number; name: string; slug: string }[];
+  images: WooImage[];
+  attributes: ProductAttribute[];
   variations?: Variation[];
+  average_rating: string;
+  rating_count: number;
+  related_ids?: number[];
+  upsell_ids?: number[];
+  cross_sell_ids?: number[];
 }
 
 // Variation
 export interface Variation {
   id: number;
+  date_created: string;
+  description: string;
   price: string;
   regular_price: string;
-  sale_price?: string;
-  stock_status: 'instock' | 'outofstock';
-  image?: WooImage;
-  images?: WooImage[];
-  attributes: { name: string; option: string }[];
+  sale_price: string;
+  on_sale: boolean;
+  status: 'publish' | 'private';
+  purchasable: boolean;
+
+  // Variation Stock
+  manage_stock: boolean;
+  stock_quantity: number | null;
+  stock_status: 'instock' | 'outofstock' | 'onbackorder';
+
+  image: WooImage;
+  // Attributes for this specific variation (e.g., Color: Red, Size: Large)
+  attributes: { id: number; name: string; option: string }[];
 }
